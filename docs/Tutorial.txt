@@ -1,0 +1,87 @@
+How to do SAM Beamforming in Linux
+(Synthetic Aperture Magnetometry)
+Version 1: Zaifeng Gao, HUJ
+Version2: 
+
+BIU users
+SAM can work on the raw data but work better without artifacts.
+Use cleanMEG (https://github.com/yuval-harpaz/cleanMEG_BIU) to clean the data first. It will also clear the trigger from 50Hz markers.
+
+
+install software for first use
+
+1) Download SAM 
+check the download button of this repository, download SAM.zip.
+you can check here too: http://kurage.nimh.nih.gov/meglab/Meg/SAM2
+2) Download AFNI from AFNI website: http://afni.nimh.nih.gov/afni/download/afni/releases/latest
+choose linux_gcc33_64.tgz
+3) Downlaod Brainhull from here: http://kurage.nimh.nih.gov/meglab/Meg/Brainhull extract the master+orig.BRIK file
+4) Put spm8 and fieldtrip toolbox into the matlab path
+5) Get the TLRC template [/home/picasso/newdataarch/CommonResources/Tools/MEG Analysis/toolbox in Linux for SAM]
+6) Add the fitIndMRI.m and point_to_line.m into matlab path
+7) Install the SAM, AFNI and Brainhull toolbox:
+NOTE you may have to change picasso to your own user name.
+    this adds these folders to the path of linux.
+* Put the three toolbox into /home/picasso/ directory and named them as bin (for SAM), abin (for AFNI) and Brainhull respectively.
+* For brainhull, run the following comands in the terminal
+     			cd /home/picasso/brainhull
+    			make
+     			make install
+* For SAM and AFNI, run the following commands in the terminal
+    			cd /home/picasso/
+                        sudo chmod 777 bin -R
+                        sudo chmod  777 abin -R
+* Finally, go to the home directory, view--->show hidden files--->open .bashrc file. add these lines to the end of the file:
+			export PATH=$PATH:/home/picasso/abin
+			export PATH=$PATH:/home/picasso/bin
+			export PATH=$PATH:/home/picasso/brainhull 
+   
+
+Preparing the data
+
+8) If necessary, Use matlab to set the right event trigger ( to replace the visual code 2048 for example). Use the script named rewriteTrig . 
+9) Rewrite the data for setting bad channels as 0. Use pdf4D functions: http://biomag.wikidot.com/msi-matlab
+10) Get the weight matrix of the data from 4D data acquisition software:
+* run terminal;--->type msi to run the software 
+* select the related data set (P posted) 
+* run print_table -posted -wp both >filename.rtw
+*  N.B. please consult Yuval wethether you need to get a weight matrix for each participant.Usually if there are no change in MEG, one matrix can be used for all the subjects.
+
+Run SAM (Most of them are run in Linux Terminal):
+SAM wants a folder for each run (each subject in many cases). Let's say there is a folder called MyExp and in it there are the run folders called sub1 sub2 etc.  in each of them must be the data, hs_file, config and filename.rtw (see above). ,filename has to be the same as the folder name (e.g. sub1.rtw).
+Run SAM on sub1:
+1.  cd MyExp  
+2.  SAMcov -r sub1 -d c,rfDC -m chkLL -f "1 40"  (with -m, producing a folder named chkLL, 1-40Hz; without -m, producing a folder named Global, 1-40Hz, containing three sub-files). N.B. the chkLL should be in the folder of SAM. 
+3.  SAMwts -r sub19 -d c,rfDC -c Global,1-40Hz -C -Z -x "-10 10" -y "-9 9" -z "0 14" -s 0.5 -v (producing a file named Global,1-40HZ,Global,ECD.wts)
+4. cp /media/D6A0A2E3A0A2C977/Documents/SAM_scripts/trigger_def/chkC maor/SAM 
+5. SAMerf -r sub19 -d c,rfDC,lp -w Global,1-40Hz,Global,ECD -m 42 -f "1 40" -v -t "0.1 0.2" -b "-0.15 -0.05" -z 3 (producing a file named Global,1-40Hz,Global,ECD,Trig-42,100-200ms,1-40Hz,ERP.svl)
+
+6. cd /media/sda3/Feng/sub19/SAM
+7. cp /media/sda3/Feng/script/Batch/SAM/colin+tlrc.BRIK /media/sda3/Feng/sub19/SAM 
+8. cp /media/sda3/Feng/script/Batch/SAM/colin+tlrc.HEAD /media/sda3/Feng/sub19/SAM 
+9. cp /media/sda3/Feng/script/Batch/SAM/single_subj_T1.nii /media/sda3/Feng/sub19/T.nii
+10. cp /home/picasso/brainhull/null.tag /media/sda3/Feng/sub19/SAM 
+11. run matlab--->/media/sda3/Feng/sub19/--->run fitIndMRI to get the MRI template of the participant using the hs_file.
+12. cp /media/sda3/Feng/sub19/T.nii /media/sda3/Feng/sub19/SAM/T.nii 
+13. To put the MRI into the AFNI format. Run afni in the terminal, click underLay-->T.nii;---> Define Datamode--->Plugins-->Dataset Copy--->Input Dataset Choose T.NII+orig--->Output prefix-->T1-->Copy+Close, in the SAM folder two files named T1+orig.BRIK and T1+orig.HEAD were produced.
+14. Put the MRI into the right Coordiante using three fiducials. Click underlay T1-->Click Image, the brain MRI is displayed.---> Define Datamode--->Plugins-->Edit tagset--->Dataset--->T1+orig--->Tag File input null.tag--->Read--->Click the three Image buttons (Axial, Sagittal, and Coronal) in the main interface of AFNI-->Do the adustament sequencely: for instance, click Nasion--->Adjust the cross-hair to the right place, give the tag value 1, then click set (N.B. Left Ear is on the right side; vice versa; and left and right Ear should be in the same plane)--->Write (pls check the number in null.tag is in the right place)-->Done
+15.  Align the anat MRI to ortho by first close AFNI then run these two lines (the dataset must be reoriented, so that the three fiducials are all in the same plane, and also resampled to 256-cubed with uniform voxels.):
+  libdir=`brainhull -p` 
+   3dTagalign -prefix ./ortho -master $libdir/master+orig T1+orig  
+    [producing the two ortho+orig files]
+16. Now type afni and underlay the otho file, overlay the .svl file, then click the three image buttons you could see the source results with the MRI.
+17. The SAM results maybe not align well with the MRI data, so next, do the Nedge:
+Define datamode--->Plugins--->Nedgedataset   
+18. Put the MRI into Talairach Space, run this:
+@auto_tlrc -base colin+tlrc -input ortho+orig -no_ss
+[N.B. for the first time run SAM on a new computer , before this you may need to firs run sudo apt-get install tcsh]
+19. Transform the SAM results into AFNI format:
+Define datamode--->Plugins--->Dataset copy--->Input: select the .svl+org file; output: named for instance as fun-->Copy+close-->in the SAM folder you have two files named as fun+orig.
+20.  Transform the functional image (normalized or not) into the Talairach coordinate system:
+adwarp -apar ortho+tlrc -dpar fun+orig -dxyz 5
+  [http://kurage.nimh.nih.gov/meglab/Meg/GroupAnalysis]
+21. afni-->underlay: othor-->overlay:fun--->click to the three Image buttons---> Click Talarirach View---> Click the hottest point--->right Click--> Where am I? --->Pop out a window tell you the detailed MNI coordiante 
+22. Do the group analysis
+-Do the analysis  3dMean 
+23. Do the statistics---for instance, t test
+3dttest -set1 Sub13Cond10+tlrc Sub14Cond10+tlrc Sub15Cond10+tlrc -set2 Sub13Cond30+tlrc Sub14Cond30+tlrc Sub15Cond30+tlrc 

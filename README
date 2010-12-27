@@ -4,3 +4,5 @@ See the Downloads button for SAM executable files for linux 64 bit (ubuntu, also
 there you find also template brains for studies where individual anatomical MRI is not available, or for projecting many subjects on a talairach template.
 
 in the matlab directory there are many useful scripts for preparing the data and MRIs, see a separate README there.
+
+many thanks to Dr. Stephen Robinson for letting us and everybody use his executable files freely.

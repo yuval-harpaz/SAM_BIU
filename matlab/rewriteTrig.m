@@ -1,20 +1,20 @@
-function rewriteTrig(source,trig,badChans);
+function rewriteTrig(source,trig,prefix,badChans)
 % rewriting the trigger channel 
 % must cd to the directory where the file is
-destination=['tf_',source]; %tf for trigger fixed
-display('copying file');
+destination=[prefix,'_',source]; %tf for trigger fixed
+display(['copying; new file named ',destination]);
 copyfile(source,destination);
 %pdf=pdf4D(source);
 display('reading header');
 pdf1=pdf4D(destination);
-dr=get(pdf1,'dr');
+%dr=get(pdf1,'dr');
 T1=0;
 hdr=get(pdf1,'header');
 T2=hdr.epoch_data{1,1}.epoch_duration;
 chi = channel_index(pdf1, {'meg' 'ref' 'TRIGGER' 'RESPONSE' 'UACurrent'...
     'eeg' 'external'}, 'name');%% add external
 chiT=channel_index(pdf1,'TRIGGER','name');
-lastSamp=hdr.epoch_data{1,1}.pts_in_epoch;
+% lastSamp=hdr.epoch_data{1,1}.pts_in_epoch;
 
 
 %% writing a new file
@@ -43,14 +43,14 @@ for i=1:ceil(splits)
     if exist ('badChans')
         if isempty('badChans')==0;
             for j=1:size(badChans,2);
-                bch=['A',num2str(badChans(1,j))]
+                bch=['A',num2str(badChans(1,j))];
                 dataC(channel_index(pdf1,bch,'name'),:)=zeros(size(dataC(1,:)));
                 display(['replacing ',bch,' with zeros']);
             end
         end
     end
     write_data_block(pdf1, dataC, latE(1));
-    i
+    display(['wrote section ',num2str(i)]);
 end
 lat=lat2ind(pdf1,1,[T1 T2]);
 trigD=read_data_block(pdf1,lat,chiT);

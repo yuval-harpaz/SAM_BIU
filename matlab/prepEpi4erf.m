@@ -3,15 +3,15 @@
 %% 1) ICA for spike classification
 %specify path and dataset filename
 
-pat='/media/D6A0A2E3A0A2C977/BF4clinic/b025/';
-dataset='tf_c,rfhp1.0Hz,ee';
+pat='/media/D6A0A2E3A0A2C977/BF4clinic/b024/';
+dataset='c,rfhp1.0Hz,ee';
 comp=epiFTica(pat,dataset);
 
 %% 2) create a trigger channel
 % check the components with component browser.
 % specify components 'compNum' to be written as triggers. try compNum=1:10 for start.
 
-compNum=5:10;
+compNum=4;
 trigger=comp2trig(comp,compNum);
 %% 3) write the new trigger channel to file
 % has to write one trigger value per file because SAM crashes when triggers

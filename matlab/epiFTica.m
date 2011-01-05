@@ -26,7 +26,7 @@ end
     
 cfg1=[];
 cfg1.dataset=[pat,dataset]; % change file name or path+name
-cfg1.trialfun='YHbegtrialfun';
+cfg1.trialfun='trialfun_beg';
 cfg2=ft_definetrial(cfg1);
 hdr=ft_read_header([pat,dataset]);
 pts=hdr.orig.epoch_data.pts_in_epoch;

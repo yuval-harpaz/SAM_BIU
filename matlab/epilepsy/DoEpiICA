@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 # assuming SAMcov was run for SAM(g2)
 # run as DoEpiICA <patient ID> <file prefix>
 SAMwts -r $1 -d $2_c,rfhp1.0Hz,ee -c Global,20-70Hz -C -Z -x "-10 10" -y "-9 9" -z "0 14" -s 0.5 -v

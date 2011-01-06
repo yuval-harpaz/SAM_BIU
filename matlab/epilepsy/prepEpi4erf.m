@@ -1,11 +1,11 @@
 % better run script in stages
 
 %% 1) ICA for spike classification
-%specify path and dataset filename
+%specify path dataset (filename) bad channels and MEG ('M') or EEG ('M')
 
 pat='';
-dataset='c,rfhp1.0Hz,ee';
-comp=epiFTica(pat,dataset,[],'M');
+dataset='tf_c,rfhp1.0Hz,ee';
+comp=epiFTica(pat,dataset,[74 204],'M');
 %% 2) create a trigger channel
 % check the components with component browser.
 % specify components 'compNum' to be written as triggers. try compNum=1:10 for start.
@@ -19,7 +19,7 @@ if ~isempty(pat)
     cd(pat);
 end
 for i=1:size(compNum,2)
-    trig=(trigger==compNum(i));
+    trig=(abs(trigger)==compNum(i));
     trig(1,1:200)=0;trig(1,(end-200):end)=0; %ignoring edges
     rewriteTrig(dataset,trig,['tf',num2str(compNum(i))],[]);
 end

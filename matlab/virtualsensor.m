@@ -6,7 +6,7 @@ qspace = 100;
 % epoch = 'Epoch2,';
 % band = '20-70Hz,Epi,';
 % rootname = ['/Users/ser/data/' patient '/' run '/SAM/' epoch band]
-rootname=['Global,20-70Hz,Epi,']
+rootname=['Global,20-70Hz,Epi,'];
 dx = 5;           % dx is the width of the axis 'window' in seconds
 a = gca;
 

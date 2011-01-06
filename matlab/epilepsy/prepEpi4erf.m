@@ -4,8 +4,8 @@
 %specify path and dataset filename
 
 pat='';
-dataset='tf_c,rfhp1.0Hz,ee';
-comp=epiFTica(pat,dataset,[74 204],'M');
+dataset='c,rfhp1.0Hz,ee';
+comp=epiFTica(pat,dataset,[],'M');
 %% 2) create a trigger channel
 % check the components with component browser.
 % specify components 'compNum' to be written as triggers. try compNum=1:10 for start.

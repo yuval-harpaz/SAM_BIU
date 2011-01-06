@@ -26,7 +26,7 @@ end
     
 cfg1=[];
 cfg1.dataset=[pat,dataset]; % change file name or path+name
-cfg1.trialfun='YHbegtrialfun';
+cfg1.trialfun='trialfun_beg';
 cfg2=ft_definetrial(cfg1);
 hdr=ft_read_header([pat,dataset]);
 pts=hdr.orig.epoch_data.pts_in_epoch;
@@ -61,7 +61,7 @@ cfg6 = [];
 cfg6.topo      = comp_e.topo;
 cfg6.topolabel = comp_e.topolabel;
 comp     = componentanalysis(cfg6, rawEpi);
-save([pat,'comp'],'comp');
+save([pat,'comp'],'comp','comp_e','cfg5');
 %%
 % end
 % save([pat,'trigger'],'trigger')

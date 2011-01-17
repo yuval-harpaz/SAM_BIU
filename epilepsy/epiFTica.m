@@ -52,7 +52,7 @@ cfg4            = [];
 comp_e = componentanalysis(cfg4, eEpi);
 cfg5.layout='4D248.lay';
 if EorM=='E';
-    load ~/Documents/MATLAB/EEG30lay
+    load ~/SAM_BIU/epilepsy/EEG30lay
     cfg5.layout=lay;
 end
 cfg5.comp=1:10;

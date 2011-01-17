@@ -25,7 +25,7 @@ for c=compNum
     trig(1,(size(trig,2)+1))=0;
     trigger=trigger+trig;
     hold on; plot(trig,'g')
-    title(['ICA ',numtstr(c),': ',num2str(size(find(trig),2)),' spikes remained (green)']);
+    title(['ICA ',num2str(c),': ',num2str(size(find(trig),2)),' spikes remained (green)']);
     display([num2str(size(find(trig),2)),' spikes remained (green)']);
 end
 

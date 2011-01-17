@@ -51,17 +51,36 @@ eEpi=ft_preprocessing(cfg3);
 cfg4            = [];
 comp_e = componentanalysis(cfg4, eEpi);
 cfg5.layout='4D248.lay';
+if EorM=='E';
+    load ~/Documents/MATLAB/EEG30lay
+    cfg5.layout=lay;
+end
 cfg5.comp=1:10;
-figure;
+save([pat,'comp_e'],'comp_e','cfg5');
+%figure;
 comppic=componentbrowser(cfg5,comp_e); %#ok<NASGU>
 clear eEpi;
-rawEpi=preprocessing(cfg2);
-
+% if cfg2.trl(1,2)>101800; %if data is large
+estart=1:100000:cfg2.trl(1,2);
+eend=estart+99999;
+eend(1,end)=cfg2.trl(1,2);
 cfg6 = [];
 cfg6.topo      = comp_e.topo;
 cfg6.topolabel = comp_e.topolabel;
-comp     = componentanalysis(cfg6, rawEpi);
-save([pat,'comp'],'comp','comp_e','cfg5');
+
+for i=1:size(estart,2);
+    cfg2.trl(1,1)=estart(1,i); cfg2.trl(1,2)=eend(1,i);
+    rawEpi=preprocessing(cfg2);
+    comp     = componentanalysis(cfg6, rawEpi);
+    save(['comp',num2str(i)],'comp')
+    display(['processed segment ',num2str(i)]);
+end
+comp_raw=comp;
+for i=1:size(estart,2);
+    load (['comp',num2str(i)])
+    comp_raw.trial{1,1}(:,estart(1,i):eend(1,i))=comp.trial{1,1}(:,:);
+end
+save([pat,'comp_raw'],'comp_raw');
 %%
 % end
 % save([pat,'trigger'],'trigger')

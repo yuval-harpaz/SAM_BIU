@@ -1,13 +1,26 @@
-function [trigf,events]=fixVisTrig(trig,prestim);
-% replacing visual signal (2048) with onsets and offsets
+function [newtrig,events]=fixVisTrig(trig,prestim,onORoffset,alltrigs);
+% replacing visual signal (2048) with onsets or offsets
 % changes values according to previous triger (sent by eprime,
 % offset=onset+300)
-% requires trig (output of readTrig_BIU) and prestim (number of points to look back for E' trigger) 
+% requires trig (output of readTrig_BIU) and prestim (number of sample points to look back for E' trigger) 
 % NOTE, prestim is in samples, not time.
+% onORoffset specifies whether to write trigger values at the visual
+% trigger onsets or offsets (default - onset)
 % event list is created with columns for trigger onset, trigger value and
 % trigger offset.
+% alltrigs: in order to mark all trials (to run ICA on all conditions for example)
+% write the value of to be writen 10 samples before every visual trigger.
+% for standart visual experiments run as
+% [newtrig,events]=fixVisTrig(trig,102,'onset',1);
 %% 
-warning('50Hz cleaning will not be possible after');
+if ~exist('onORoffset','var')
+    onORoffset='onset';
+end
+if isempty('onORoffset')
+    onORoffset='onset';
+end
+    
+warning('50Hz cleaning with cleanMEG pack will not be possible using the new trigger'); %#ok<WNTAG>
 trig16=uint16(trig);
 trigf=bitset(trig16,9,0); %getting rid of trigger 256 (9)
 trigf=bitset(trigf,10,0);  %getting rid of trigger 512 (9)
@@ -25,14 +38,24 @@ for i=1:size(onsets,2)
         [fstTrig,v]=find(fliplr(trigf((ionset-prestim):ionset)),1);
         tvalue=trigf(ionset-v+1);
         if tvalue>0;
-            newtrig(1,ionset)=tvalue;
-            events(i,1)=ionset;
-            events(i,2)=tvalue;
             ioffset=find(offsets>ionset,1);
-            newtrig(1,offsets(ioffset))=300+tvalue;
-            events(i,3)=offsets(ioffset);
-            tvalue=0;
-         end
+            if strcmp(onORoffset,'onset');
+                newtrig(1,ionset)=tvalue;
+            elseif strcmp(onORoffset,'offset');
+                newtrig(1,offsets(ioffset))=tvalue;
+            end
+            events(i,1)=ionset; %#ok<AGROW>
+            events(i,2)=tvalue; %#ok<AGROW>
+            events(i,3)=offsets(ioffset); %#ok<AGROW>
+            tvalue=0; %#ok<NASGU>
+        end
     end
 end
+if exist('alltrigs','var')
+    if ~isempty('alltrigs')
+        trigs=find(newtrig>0);
+        newtrig(1,trigs-10)=alltrigs;
+    end
+end
+figure;plot(trig);hold on;plot(newtrig,'r');
 end

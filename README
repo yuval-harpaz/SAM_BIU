@@ -1,4 +1,5 @@
-All sorts of stuff required for Bar-Ilan users of SAM beamforming 
+All sorts of stuff required for Bar-Ilan users of SAM beamforming
+see also here: http://yuval-harpaz.github.com/SAM_BIU 
 
 See the Downloads button for SAM executable files for linux 64 bit (ubuntu, also work for ubunto 32 bit).
 there you find also template brains for studies where individual anatomical MRI is not available, or for projecting many subjects on a talairach template.

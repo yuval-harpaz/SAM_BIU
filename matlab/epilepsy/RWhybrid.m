@@ -1,6 +1,7 @@
-patient='b026';
-prefix='tf8';
-pat='/home/yuval/Desktop/STUFF/BF4clinic';
+function RWhybrid(pat,patient,prefix)
+% patient='b026';
+% prefix='tf8';
+% pat='/home/yuval/Desktop/STUFF/BF4clinic';
 cd (pat);
 cd(patient);
 source=[prefix,'_c,rfhp1.0Hz,ee'];
@@ -10,7 +11,7 @@ pdf2=pdf4D('hyb_c,rfhp1.0Hz,ee');
 
 chi = channel_index(pdf, {'meg' 'ref' 'TRIGGER' 'RESPONSE' 'UACurrent' 'eeg'}, 'name');
 lat = lat2ind(pdf, 4, [0 194]);
-chn = channel_name(pdf, chi);
+%chn = channel_name(pdf, chi);
 data = read_data_block(pdf, lat, chi);
  pdfS=pdf4D('/home/yuval/Desktop/STUFF/hybrid/sagit_s1run1/c,rfhp1.0Hz');
 % hdr=get(pdfS,'header');
@@ -46,3 +47,4 @@ write_data_block(pdf2, hybrid, 1);
 % pdfN=pdf4D('/home/yuval/Desktop/hybrid/180_200s/noise/180_200_c,rfhp1.0Hz,ee');
 % write_data_block(pdfN, hybrid, 1);
 % 
+end

@@ -1,5 +1,6 @@
 function virtualsensor
-nvs = 8;            % number of virtual sensors
+for i=1:8;if exist(['Global,20-70Hz,Epi,VS',num2str(i)],'file');nvs=i;end;end;
+%nvs = 8;            % number of virtual sensors
 qspace = 100;
 % patient= '2691/Epi200_1hz';
 % run = '1';
@@ -9,7 +10,7 @@ qspace = 100;
 rootname=['Global,20-70Hz,Epi,'];
 dx = 5;           % dx is the width of the axis 'window' in seconds
 a = gca;
-
+figure;
 switch(nvs)
     case 1
         [x, y1] = textread([rootname 'VS1'], '%f %f');

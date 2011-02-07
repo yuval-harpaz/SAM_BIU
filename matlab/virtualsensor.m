@@ -1,4 +1,7 @@
-function virtualsensor
+function virtualsensor(Xlength)
+% plots the virtual sensors created by SAM. first, cd to where the *VS* files are.
+% Xlength is to specify the x scale. Xlength=10 means the plot will cover
+% 10s in one screen.
 for i=1:8;if exist(['Global,20-70Hz,Epi,VS',num2str(i)],'file');nvs=i;end;end;
 %nvs = 8;            % number of virtual sensors
 qspace = 100;
@@ -8,9 +11,9 @@ qspace = 100;
 % band = '20-70Hz,Epi,';
 % rootname = ['/Users/ser/data/' patient '/' run '/SAM/' epoch band]
 rootname=['Global,20-70Hz,Epi,'];
-dx = 5;           % dx is the width of the axis 'window' in seconds
+dx = 10;           % dx is the width of the axis 'window' in seconds
+if exist('Xlength','var');dx=Xlength;end
 a = gca;
-figure;
 switch(nvs)
     case 1
         [x, y1] = textread([rootname 'VS1'], '%f %f');
@@ -152,3 +155,5 @@ h=uicontrol('Style','slider',...
     'callback',S,...
     'min',0,...
     'max',xmax-dx);
+title(pwd)
+end

@@ -17,7 +17,7 @@ cp $1/SAM/Global,20-70Hz,Global,ECD,Epi.svl g2hyb.svl
 mv g2hyb.svl $1
 mkdir $1/g2hybVS
 mv $1/SAM/*Epi,VS* $1/g2hybVS
-
+mv $1/SAM/*.max $1/g2hybVS
 # cp /media/D6A0A2E3A0A2C977/AllSorts/InstallPack/AFNI/MNI305.tag $1/$1.tag
 #SAMwts -r $1 -d hyb_c,rfhp1.0Hz,ee -c Global,0-100Hz -C -Z -x "-10 10" -y "-9 9" -z "0 14" -s 0.5 -v
 #cp ~/SAM_BIU/matlab/epilepsy/ICA $1/SAM/ICA

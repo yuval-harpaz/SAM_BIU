@@ -11,12 +11,12 @@ pdf2=pdf4D('hyb_c,rfhp1.0Hz,ee');
 chi = channel_index(pdf, {'meg' 'ref' 'TRIGGER' 'RESPONSE' 'UACurrent' 'eeg'}, 'name');
 lat = lat2ind(pdf, 4, [0 194]);
 data = read_data_block(pdf, lat, chi);
-pdfS=pdf4D('/home/yuval/Desktop/STUFF/hybrid/sagit_s1run1/c,rfhp1.0Hz');
-chiS = channel_index(pdfS, {'meg' 'ref' 'TRIGGER' 'RESPONSE' 'UACurrent' 'eeg'}, 'name');
+%pdfS=pdf4D('/home/yuval/Desktop/STUFF/hybrid/sagit_s1run1/c,rfhp1.0Hz');
+%chiS = channel_index(pdfS, {'meg' 'ref' 'TRIGGER' 'RESPONSE' 'UACurrent' 'eeg'}, 'name');
 load dataS
 dataS=dataS(:,1:67817);
-dataS(channel_index(pdfS,'A204'),:)=zeros(1,size(dataS,2));
-dataS(channel_index(pdfS,'A74'),:)=zeros(1,size(dataS,2));
+dataS(57,:)=zeros(1,size(dataS,2)); %A204
+dataS(196,:)=zeros(1,size(dataS,2)); %A74
 %rearranging channels
 for i=1:size(chi,2)
     dataC(chi(i),:)=data(i,:);

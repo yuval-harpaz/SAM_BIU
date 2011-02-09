@@ -1,9 +1,10 @@
-function virtualsensorMEEG(Xlength,MorE,source)
+function virtualsensorMEEG(Xlength,MorE,source,VSdir)
 % plots the virtual sensors created by SAM. first, cd to where the *VS* files are.
 % Xlength is to specify the x scale. Xlength=10 means the plot will cover
 % 10s in one screen.
 % if MEG or EEG are to be desplyed, use MorE to indicate which.
 %source is the full filename.
+%VSdir is the path to the VSs
 for i=1:8;if exist(['Global,20-70Hz,Epi,VS',num2str(i)],'file');nvs=i;end;end;
 %nvs = 8;            % number of virtual sensors
 if ~exist('MorE','var');MorE=[];end
@@ -39,7 +40,7 @@ qspace = 100;
 % epoch = 'Epoch2,';
 % band = '20-70Hz,Epi,';
 % rootname = ['/Users/ser/data/' patient '/' run '/SAM/' epoch band]
-rootname=['Global,20-70Hz,Epi,'];
+rootname=[VSdir,'/Global,20-70Hz,Epi,'];
 dx = 10;           % dx is the width of the axis 'window' in seconds
 if exist('Xlength','var');dx=Xlength;end
 a = gca;
@@ -206,4 +207,7 @@ h=uicontrol('Style','slider',...
     'min',0,...
     'max',xmax-dx);
 title(pwd)
+if exist([VSdir,'/Global,20-70Hz,Global,ECD,Epi.max'],'file')
+    display(['!gedit ',VSdir,'/Global,20-70Hz,Global,ECD,Epi.max']);
+end
 end

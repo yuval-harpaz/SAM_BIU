@@ -48,16 +48,23 @@ a = gca;
 for i=2:8;
     eval(['y',num2str(i),'=zeros(size(y1));']);
 end
+i=[];
 for i=9:38;
     eval(['y',num2str(i),'=data(',num2str((i-8)),',1:(size(y1,1)));']);
 end
-[x, y2] = textread([rootname 'VS2'], '%f %f');
-[x, y3] = textread([rootname 'VS3'], '%f %f');
-[x, y4] = textread([rootname 'VS4'], '%f %f');
-[x, y5] = textread([rootname 'VS5'], '%f %f');
-[x, y6] = textread([rootname 'VS6'], '%f %f');
-[x, y7] = textread([rootname 'VS7'], '%f %f');
-[x, y8] = textread([rootname 'VS8'], '%f %f');
+i=[];
+for i=2:8
+    if exist([rootname,'VS',num2str(i)],'file')
+        eval(['[x, y',num2str(i),'] = textread([rootname ''','VS',num2str(i),'''], ''','%f %f''',');']);
+    end
+end
+% [x, y2] = textread([rootname 'VS2'], '%f %f');
+% [x, y3] = textread([rootname 'VS3'], '%f %f');
+% [x, y4] = textread([rootname 'VS4'], '%f %f');
+% [x, y5] = textread([rootname 'VS5'], '%f %f');
+% [x, y6] = textread([rootname 'VS6'], '%f %f');
+% [x, y7] = textread([rootname 'VS7'], '%f %f');
+% [x, y8] = textread([rootname 'VS8'], '%f %f');
 y1 = y1 + 7. * qspace;
 y2 = y2 + 5. * qspace;
 y3 = y3 + 3. * qspace;

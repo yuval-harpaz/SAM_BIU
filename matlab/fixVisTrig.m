@@ -21,6 +21,9 @@ trig16=uint16(trig);
 trigf=bitset(trig16,9,0); %getting rid of trigger 256 (9)
 trigf=bitset(trigf,10,0);  %getting rid of trigger 512 (9)
 %trigf=bitset(trigf,11,0);
+
+trigf=bitset(trigf,10,0);  %getting rid of trigger 512 (10)
+%trigf=bitset(trigf,11,0);  %getting rid of trigger 1024 (11)
 vis=bitand(trigf,2048);   % reading the visual information
 trigf=bitset(trigf,12,0);   %getting rid of trigger 2048 (12)
 visonset=vis(1,:);visonset(1,1)=0;visonset(1,2:end)=visonset(1,2:end)-visonset(1,1:(end-1));

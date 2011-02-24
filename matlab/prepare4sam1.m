@@ -1,4 +1,4 @@
-function prepare4SAM1(pat,source,groups)
+function prepare4sam1(pat,source,groups)
 % lists folders with data at the given path (linux), fixes visual trigger for SAM
 % analysis.
 % groups is a matrix of sbjects in the first row. zeros on the second row

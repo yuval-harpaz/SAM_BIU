@@ -1,0 +1,10 @@
+SAMcov -r $1 -d tf_c,rfhp1.0Hz,ee -f "20 70" -v
+SAMcov -r $1 -d tf_c,rfhp1.0Hz,ee -f "0 100" -v
+SAMwts -r $1 -d tf_c,rfhp1.0Hz,ee -c Global,20-70Hz -C -Z -x "-10 10" -y "-9 9" -z "0 14" -s 0.5 -v
+SAMepi -r $1 -d tf_c,rfhp1.0Hz,ee -w Global,20-70Hz,Global,ECD -v
+SvlPeak -r $1 -i Global,20-70Hz,Global,ECD,Epi -n 10 -v
+SAMwts -r $1 -d tf_c,rfhp1.0Hz,ee -c Global,0-100Hz -m Global,20-70Hz -C -Z -t Global,20-70Hz,Global,ECD,Epi.max -v
+SAMvs -r $1 -d tf_c,rfhp1.0Hz,ee -w Global,0-100Hz,Global,20-70Hz,Global,ECD,Epi.max,ECD -l 20-70Hz,Epi -v
+# cp /media/D6A0A2E3A0A2C977/AllSorts/InstallPack/AFNI/MNI305.tag $1/$1.tag
+cp $1/SAM/Global,20-70Hz,Global,ECD,Epi.svl g2.svl
+mv g2.svl $1

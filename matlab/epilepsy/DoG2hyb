@@ -1,0 +1,27 @@
+#!/bin/bash
+# designed for running SAM(g2) after trace hybridization (mixing MEG with artifact)
+
+#moving files to avoid overrun
+mv $1/SAM $1/SAMorig
+mkdir $1/g2VS
+mv $1/SAMorig/*Epi,VS* $1/g2VS
+mv $1/SAMorig/*.max $1/g2VS
+SAMcov -r $1 -d hyb_c,rfhp1.0Hz,ee -f "20 70" -v
+SAMcov -r $1 -d hyb_c,rfhp1.0Hz,ee -f "0 100" -v
+SAMwts -r $1 -d hyb_c,rfhp1.0Hz,ee -c Global,20-70Hz -C -Z -x "-10 10" -y "-9 9" -z "0 14" -s 0.5 -v
+SAMepi -r $1 -d hyb_c,rfhp1.0Hz,ee -w Global,20-70Hz,Global,ECD -v 
+SvlPeak -r $1 -i Global,20-70Hz,Global,ECD,Epi -n 10 -v
+SAMwts -r $1 -d hyb_c,rfhp1.0Hz,ee -c Global,0-100Hz -m Global,20-70Hz -C -Z -t Global,20-70Hz,Global,ECD,Epi.max -v
+SAMvs -r $1 -d hyb_c,rfhp1.0Hz,ee -w Global,0-100Hz,Global,20-70Hz,Global,ECD,Epi.max,ECD -l 20-70Hz,Epi -v
+cp $1/SAM/Global,20-70Hz,Global,ECD,Epi.svl g2hyb.svl
+mv g2hyb.svl $1
+mkdir $1/g2hybVS
+mv $1/SAM/*Epi,VS* $1/g2hybVS
+mv $1/SAM/*.max $1/g2hybVS
+# cp /media/D6A0A2E3A0A2C977/AllSorts/InstallPack/AFNI/MNI305.tag $1/$1.tag
+#SAMwts -r $1 -d hyb_c,rfhp1.0Hz,ee -c Global,0-100Hz -C -Z -x "-10 10" -y "-9 9" -z "0 14" -s 0.5 -v
+#cp ~/SAM_BIU/matlab/epilepsy/ICA $1/SAM/ICA
+#SAMspm -r $1 -d hyb_c,rfhp1.0Hz,ee -a Global,0-100Hz,Global,ECD -c Global,0-100Hz,Global,ECD -m ICA -f "3 70" -D 1 -P -v
+#cp $1/SAM/ICA,* $1/hyb_ICAspm.svl
+#SAMerf -r $1 -d hyb_c,rfhp1.0Hz,ee -w Global,0-100Hz,Global,ECD -m 1 -f "3 70" -v -t "-0.025 0.025" -b "-0.2 -0.15" -z 3
+#cp $1/SAM/Global,0-100Hz,Global,ECD,Trig-1,-25-25ms,3-70Hz,ERP.svl $1/hyb_ICAerf.svl

@@ -20,6 +20,7 @@ warning('50Hz cleaning with cleanMEG pack will not be possible using the new tri
 trig16=uint16(trig);
 trigf=bitset(trig16,9,0); %getting rid of trigger 256 (9)
 trigf=bitset(trigf,10,0);  %getting rid of trigger 512 (9)
+%trigf=bitset(trigf,11,0);
 vis=bitand(trigf,2048);   % reading the visual information
 trigf=bitset(trigf,12,0);   %getting rid of trigger 2048 (12)
 visonset=vis(1,:);visonset(1,1)=0;visonset(1,2:end)=visonset(1,2:end)-visonset(1,1:(end-1));

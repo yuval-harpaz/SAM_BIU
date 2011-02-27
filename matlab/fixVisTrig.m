@@ -1,17 +1,30 @@
 function [newtrig,events]=fixVisTrig(trig,prestim,onORoffset,alltrigs)
 % replacing visual signal (2048) with onsets or offsets
 % changes values according to previous triger (sent by eprime)
-% requires trig (output of readTrig_BIU) and prestim (number of sample points to look back for E' trigger) 
+% requires:
+%
+% trig (output of readTrig_BIU)
+%
+% prestim (number of sample points to look back for E' trigger)
 % NOTE, prestim is in samples, not time.
-% onORoffset specifies whether to write trigger values at the visual
+%
+% onORoffset specifies whether to write trigger values at the visual ('onset')
 % trigger onsets or offsets (default - onset)
+%
+% alltrigs: in order to mark all trials (to run ICA on all conditions for example)
+% 10 samples before every visual trigger the specified value (alltrigs) is
+% added to newtrig.
+%
+%
 % event list is created with columns for trigger onset, trigger value and
 % trigger offset.
-% alltrigs: in order to mark all trials (to run ICA on all conditions for example)
-% 10 samples before every visual trigger the specified value (alltrigs) is added to newtrig.
+% 
 % for standart visual experiments run as
 % [newtrig,events]=fixVisTrig(trig,102,'onset',1);
-%% 
+%%
+if ~exist('onORoffset','var')
+    onORoffset='onset';
+end
 if isempty(onORoffset)
     onORoffset='onset';
 end

@@ -45,9 +45,16 @@ for i=1:size(groups,2)
     cd ..
     eval(['!echo cd ',num2str(groups(1,i)),' >> warp']);
     eval('!echo 3dWarp -deoblique T.nii >> warp');
+    eval('!echo @auto_tlrc -base ~/SAM_BIU/docs/temp+tlrc -input warped+orig -no_ss >> warp')
     eval('!echo cd .. >> warp');
 end
 
-display('open a terminal and write the following two commands:')
-display(['cd ',pat])
-display('warp')
+display('open a terminal and write the following commands:');
+display(['cd ',pat]);
+display('warp');
+display('afni -R');
+display('use switch session to go to all .svl files. choose:');
+display('define data mode, plugins, dataset copy');
+display('choose dataset (something.svl) give it a new name (func) and save');
+display('then cd to SAM folders and run:')
+display('@auto_tlrc -apar ../warped+tlrc -input func+orig -dxyz 5')

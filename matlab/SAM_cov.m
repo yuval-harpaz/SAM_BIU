@@ -7,6 +7,9 @@ function SAM_cov(pat,source,groups,filt)
 % pat='/media/disk/Sharon/MEG/Experiment3/Source_localization';
 % filt is text for bandpass: filt='0.1 50';
 %% 
+
+filt_=filt;
+filt_(1,strfind(filt,' '))='-';
 cd(pat)
 !ls > ls.txt
 subjects=importdata('ls.txt')';
@@ -22,7 +25,7 @@ for sub=1:size(subjects,2)
     if group>0;
         folder=num2str(subjects(sub));
         eval(['!SAMcov -r ',folder,' -d ',source,' -m Global -f "',filt,'" -v'])
-        eval(['!cp ',folder,'/SAM/Global,1-50Hz/*.cov ',folder,'/SAM/Global,1-50Hz/Global.cov'])
+        eval(['!cp ',folder,'/SAM/Global,',filt_,'Hz/*.cov ',folder,'/SAM/Global,',filt_,'Hz/Global.cov'])
         % mv sub/SAM/Global,1-40Hz/5a.cov sub/SAM/Global,1-40Hz/Global.cov
         display(num2str(sub))
     end

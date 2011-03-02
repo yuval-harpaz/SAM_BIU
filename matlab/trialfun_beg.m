@@ -1,4 +1,4 @@
-function [trl, event] = YHbegtrialfun(cfg);
+function [trl, event] = trialfun_beg(cfg);
 % sets one event with trigger value 1 at the beggining of the data
 % may be usefull for reading the whole data as one epoch or short data for
 % head model requirements. yuval, Nov 2010

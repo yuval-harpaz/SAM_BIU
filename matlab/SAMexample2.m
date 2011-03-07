@@ -1,4 +1,13 @@
-
+%% SAM beamforming using matlan
+% the script runs SAM with '!' which means that it is a system command
+% (linux) and doesn't really run on MATLAB. the use of matlab simplifies
+% the application for many subjects and for putting the right names of
+% newly created files in the command lines. 
+% it assumes one set of filters for the whole analysis though one can use
+% different filters, say 1-70Hz for SAMcov and then 8-15Hz for SAMerf.
+% also note that some options are constant such as -z (3) for SAMerf or -C for SAMwts.
+% to see the different options write !SAMwts, !SAMcov etc.
+%%
 source='c,rfhp0.1Hz';
 pat='/media/D6A0A2E3A0A2C977/Pnaming/data';
 %load([pat,'/groups']);
@@ -6,7 +15,6 @@ groups=[1:8];
 groups(2,:)=1;
 % alpha: filt='8 15'; beta: filt='15 25'; gamma: filt='25 60';
 filt='8 60';
-SAM_spm(pat,source,groups,filt,textFile);
 %% rewriting the trigger and zeroing bad channels
 % prepare4samYH(pat,source,groups)
 source=['tf_',source];
@@ -18,9 +26,9 @@ SAM_cov(pat,source,groups,filt)
 %% SAMwts
 SAM_wts(pat,source,groups,filt)
 %% SAMerf
-% trigVals=202;
-% startt=0.12;endt=0.514;startb=-0.2;endb=0.05;
-% SAM_erf(pat,source,groups,filt,trigVals,startt,endt,startb,endb);
+trigVals=202;
+startt=0.12;endt=0.514;startb=-0.2;endb=0.05;
+SAM_erf(pat,source,groups,filt,trigVals,startt,endt,startb,endb);
 %% SAMspm
 % set active and control time windows and trigger values.
 cd(pat)

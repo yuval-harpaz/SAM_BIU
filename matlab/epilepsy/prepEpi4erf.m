@@ -9,12 +9,15 @@ comp=epiFTica(pat,dataset,[74 204],'M');
 %% 2) create a trigger channel
 % check the components with component browser.
 % specify components 'compNum' to be written as triggers. try compNum=1:10 for start.
-compNum=3;
+compNum=[1 4];
 trigger=comp2trig(comp,compNum);
 %% 3) write the new trigger channel to file
 % has to write one trigger value per file because SAM crashes when triggers
 % overlap
 % specify bad channels to be replaced by zeros.
+if ~exist('pat','var')
+    pat='';
+end
 if ~isempty(pat)
     cd(pat);
 end

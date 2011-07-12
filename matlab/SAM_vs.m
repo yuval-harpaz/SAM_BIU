@@ -28,7 +28,7 @@ for sub=1:size(groups,2)
     if group>0;
         folder=num2str(groups(1,sub));
         eval(['!cp vs.txt ',folder,'/SAM/vs.txt']);
-        eval(['!~/bin/SAMwts -r ',folder,' -d ',source,' -c Global,',filttext,'Hz -m Global,',filttext,' -C -Z -t ',t,' -v'])
+        eval(['!~/bin/SAMwts -r ',folder,' -d ',source,' -c Global,',filttext,'Hz -m Global,',filttext,'Hz -C -Z -t vs.txt -v'])
         if vs==1
             eval(['!~/bin/SAMvs -r ',folder,' -d ',source,' -w Global,',filttext,'Hz,vs.txt,ECD -v']);
         end

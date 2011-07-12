@@ -22,7 +22,7 @@ for sub=1:size(subjects,2)
     group=groups(2,find(groups(1,:)==(subjects(sub))));
     if group>0;
         folder=num2str(subjects(sub));
-        eval(['!SAMwts -r ',folder,' -d ',source,' -c Global,',num2str(filt(1,1)),'-',num2str(filt(1,2)),'Hz -C -Z -x "-10 10" -y "-9 9" -z "0 14" -s 0.5 -v'])
+        eval(['!~/bin/SAMwts -r ',folder,' -d ',source,' -c Global,',num2str(filt(1,1)),'-',num2str(filt(1,2)),'Hz -C -Z -x "-10 10" -y "-9 9" -z "0 14" -s 0.5 -v'])
         display(num2str(sub))
     end
 end

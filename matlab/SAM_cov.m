@@ -24,7 +24,7 @@ for sub=1:size(subjects,2)
     group=groups(2,find(groups(1,:)==(subjects(sub))));
     if group>0;
         folder=num2str(subjects(sub));
-        eval(['!SAMcov -r ',folder,' -d ',source,' -m Global -f "',filt,'" -v'])
+        eval(['!~/bin/SAMcov -r ',folder,' -d ',source,' -m Global -f "',filt,'" -v'])
         eval(['!cp ',folder,'/SAM/Global,',filt_,'Hz/*.cov ',folder,'/SAM/Global,',filt_,'Hz/Global.cov'])
         % mv sub/SAM/Global,1-40Hz/5a.cov sub/SAM/Global,1-40Hz/Global.cov
         display(num2str(sub))

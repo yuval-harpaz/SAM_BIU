@@ -1,9 +1,8 @@
 All sorts of stuff required for Bar-Ilan users of SAM beamforming
 see also here: http://yuval-harpaz.github.com/SAM_BIU 
 
-See the Downloads button for SAM executable files for linux 64 bit (ubuntu, also work for ubunto 32 bit).
-there you find also template brains for studies where individual anatomical MRI is not available, or for projecting many subjects on a talairach template.
+See the Downloads button for template brains for studies where individual anatomical MRI is not available, or for projecting many subjects on a talairach template.
 
-in the matlab directory there are many useful scripts for preparing the data and MRIs, see a separate README there.
-
-many thanks to Dr. Stephen Robinson for letting us and everybody use his executable files freely.
+many thanks to Dr. Stephen Robinson and NIMH for letting us and everybody use his executable files and code freely.
+the code and executable files have to be obtained directly from Dr. Robinson and NIMH.
+yuval

@@ -1,0 +1,15 @@
+NumStates 2
+DataBand 3 35
+ImageBand 3 35
+DataSegment -0.2 0.6
+XBounds	-12.0 12.0
+YBounds	-9.0 9.0
+ZBounds	-2.0 15.0
+ImageStep	0.5
+ImageMode	U-Test
+ImageMetric	Power
+Model	Nolte
+CovSum	TRUE
+LogP	TRUE
+Active	Pain	0.1	0.2
+Control	NoPain	0.1	0.2

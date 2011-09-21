@@ -1,0 +1,16 @@
+NumStates 1
+DataBand 3 35
+ImageBand 3 35
+DataSegment -0.2 0.6
+ImageMetric Power
+XBounds	-12.0 12.0
+YBounds	-9.0 9.0
+ZBounds	-2.0 15.0
+ImageStep	0.5
+ImageMode	ERF
+ImageMetric	Power
+Model	Nolte
+CovSum	FALSE
+LogP	TRUE
+Response	Pain	0.1	0.2
+Baseline	Pain	-0.2	0.0

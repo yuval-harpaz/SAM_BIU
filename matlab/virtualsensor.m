@@ -2,6 +2,7 @@ function virtualsensor(Xlength)
 % plots the virtual sensors created by SAM. first, cd to where the *VS* files are.
 % Xlength is to specify the x scale. Xlength=10 means the plot will cover
 % 10s in one screen.
+% nvs is 1-8 , the number of virtual sensors
 for i=1:8;if exist(['Global,20-70Hz,Epi,VS',num2str(i)],'file');nvs=i;end;end;
 %nvs = 8;            % number of virtual sensors
 qspace = 100;

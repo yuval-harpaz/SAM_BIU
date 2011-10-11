@@ -36,7 +36,7 @@ newtrig=zeros(size(trigf));
 events=[];
 for i=1:size(trigonsets,2)
     ionset=trigonsets(1,i);
-    [fstTrig,v]=find(Aud(ionset:(ionset+8000))>0.01,1);
+    [~,v]=find(abs(Aud(ionset:(ionset+8000)))>0.05,1);
     tvalue=trigf(ionset);
     %if tvalue>0;
     %         ioffset=find(offsets>ionset,1);

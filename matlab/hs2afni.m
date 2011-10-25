@@ -7,12 +7,19 @@ function hs2afni(voxSize) %(source)
 if ~exist('voxSize','var')
     voxSize='big';
 end
+if ~exist('~/abin','dir')
+    if exist('/home/megadmin/abin','dir')
+        hs2afni_megadmin(voxSize)
+        return
+    end
+    error('could not find AFNI folder')
+end
+
 % get headshape
 hs = ft_read_headshape('hs_file');
 %ft_plot_headshape(shape)
 
 pnt=hs.pnt*1000;
-pnt(end+1:end+3,1:3)=hs.fid.pnt(1:3,:);
 PNT=reshape(pnt',size(pnt,1)*3,1);
 if exist('hsTxt','file')
     !rm hsTxt

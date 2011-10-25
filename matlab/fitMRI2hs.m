@@ -60,14 +60,17 @@ M2=zeros(4,4);
 M2(1,2)=-1;M2(2,1)=1;M2(3,3)=1;M2(4,4)=1;
 spm_get_space('T.nii', M2*spm_get_space('T.nii'));
 warning(' ');
-display('oblique MRI. to create AFNI format:');
-display('if the last step failed (3dWarp) in a terminal write: 3dWarp -deoblique T.nii');
-display('the mri will be called warped+orig.BRIK');
+% display('oblique MRI. to create AFNI format:');
+% display('if the last step failed (3dWarp) in a terminal write: 3dWarp -deoblique T.nii');
+% display('the mri will be called warped+orig.BRIK');
 M=spm_get_space('T.nii');
 delete modtempfile.mat
 delete modtempfile.dat
-!~/abin/3dWarp -deoblique T.nii
-
-
-%plot_comp;
+if exist('~/abin','dir')
+    !~/abin/3dWarp -deoblique T.nii
+elseif exist('/home/megadmin/abin','dir')
+    !/home/megadmin/abin/3dWarp -deoblique T.nii
+else
+    warning('afni folder wasnt found. in a terminal write: 3dWarp -deoblique T.nii');
+end
 end

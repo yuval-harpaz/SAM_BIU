@@ -13,7 +13,7 @@ function createPARAM(fileName,SAMprog,actName,actWin,contName,contWin,band,segme
 % computed on a large [-0.1 0.7] segment
 % createPARAM('test','SPM','rest1',[0.1 0.2],'rest2',[0.1 0.2],[3 35],[-0.1 0.7]);
 
-% setting defaults and numbers to texttext
+% setting defaults and numbers to text
 fileName=[fileName,'.param'];
 if ~exist('metric','var')
     metric='Power';

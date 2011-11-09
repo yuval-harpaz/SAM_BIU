@@ -20,5 +20,12 @@ load VG % loading fieldtrip averaged data 'VG'
 vsZ=zScoreVS(vs); %standardize channels to avoid bias to medial vs.
 % here you make images. it takes time!
 vsSlice2afni(allInd,vsZ,'vgZ'); %making afni files starting with vgZ prefix
-
+%then concatnate the vgZ afni files with 3dTcat:
+!~/abin/3dTcat -prefix vgZ vgZ*
+% then open afni
+% choose underlay and overlay
+% click "new" button in afni panel
+% choose the concatnated file as underlay
+% define data mode > lock > timelock.
+% open a graph
 

@@ -58,12 +58,15 @@ if ischar(data)
         cfg1.bpfreq=bpfreq;
     end
     data=ft_preprocessing(cfg1);
+    timeline=data.time{1,1};
 elseif ~isfield(data,'trial')
     if ~isfield(data,'avg')
         error('is this fieldtrip data? no data.avg or data.trial!')
     end
     timeline=data.time;
     data.trial{1,1}=data.avg;
+else
+    timeline=data.time{1,1};
 end
 
         

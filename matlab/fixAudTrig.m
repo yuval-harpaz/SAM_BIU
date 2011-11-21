@@ -1,10 +1,21 @@
-function [newtrig,events]=fixAudTrig(trig,Aud,alltrigs)
-% replacing auditory signal X3) with onsets or offsets
-% changes values according to previous triger (sent by eprime)
+function [newtrig,events]=fixAudTrig(trig,Aud,thr,alltrigs)
+% replacing auditory signal onset (X3) with values according to previous
+% triger (sent by eprime).
+% 
 % requires:
 %
 % trig (output of readTrig_BIU)
-%
+% auditory signal (X3) channel. It is strongly recommended to highpass
+% filter the auditory signal with 110Hz bottom freq. best achieved by 
+% cleaning the original file(c,rfhp...), not a cleaned file (xc,lf_c,frhp...) like this :
+%     cfg=[];
+%     cfg.dataset=c,rfhp0.1Hz;
+%     cfg.trialfun='trialfun_beg';
+%     cfg1=ft_definetrial(cfg);
+%     cfg1.channel='X3';
+%     cfg1.hpfilter='yes';
+%     cfg1.hpfreq=110;
+%     Aud=ft_preprocessing(cfg1);
 %
 % alltrigs: in order to mark all trials (to run ICA on all conditions for example)
 % 10 samples before every visual trigger the specified value (alltrigs) is
@@ -17,7 +28,12 @@ function [newtrig,events]=fixAudTrig(trig,Aud,alltrigs)
 % for standart visual experiments run as
 % [newtrig,events]=fixVAudTrig(trig,X3,1);
 %%
-   
+if ~exist('thr','var')
+    thr=[];
+end
+if isempty(thr)
+    thr=0.01;
+end
 warning('50Hz cleaning with cleanMEG pack will not be possible using the new trigger'); %#ok<WNTAG>
 trig16=uint16(trig);
 trigf=bitset(trig16,9,0); %getting rid of trigger 256 (9)
@@ -36,7 +52,7 @@ newtrig=zeros(size(trigf));
 events=[];
 for i=1:size(trigonsets,2)
     ionset=trigonsets(1,i);
-    [~,v]=find(abs(Aud(ionset:(ionset+8000)))>0.05,1);
+    [~,v]=find(abs(Aud(ionset:(ionset+1017)))>thr,1);
     tvalue=trigf(ionset);
     %if tvalue>0;
     %         ioffset=find(offsets>ionset,1);

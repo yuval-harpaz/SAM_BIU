@@ -14,7 +14,7 @@ hs2afni % converting the hs_file to afni format
 !meshnorm ortho_brainhull.ply > hull.shape % saves the brainhull as hull.shape file.
 
 % you need ERFemp.param for the next step, find it in SAM_BIU/docs
-RUN='MOI703';DATA='c,rfhp0.1Hz';COV='Global';MARK='ERFemp';Active='Paina';
+RUN='MOI715';DATA='c,rfhp0.1Hz';COV='Global';MARK='ERFemp';Active='Paina';
 eval(['!SAMcov -r ',RUN,' -d ',DATA,' -m ',MARK,' -v']);
 eval(['!SAMwts -r ',RUN,' -d ',DATA,' -m ',MARK,' -c ',Active,' -v']);
 eval(['!SAMerf -r ',RUN,' -d ',DATA,' -m ',MARK,' -v']);

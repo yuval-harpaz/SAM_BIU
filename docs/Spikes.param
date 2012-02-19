@@ -1,0 +1,11 @@
+NumStates 1
+DataBand 20 70
+ImageBand 20 70
+DataSegment 0	100
+ImageMetric Kurtosis
+Model	SingleSphere	0 -1 5
+XBounds	-10	10
+YBounds	-9	9
+ZBounds	0	15
+ImageStep	0.5
+TimeInt	0.500

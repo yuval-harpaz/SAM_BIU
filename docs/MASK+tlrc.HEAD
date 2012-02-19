@@ -1,0 +1,126 @@
+
+type = string-attribute
+name = HISTORY_NOTE
+count = 409
+'[yuval@meg2: Thu Dec 15 07:15:56 2011] 3dSkullStrip -input temp+tlrc -prefix mask -mask_vol\n[yuval@meg2: Thu Dec 15 07:24:30 2011] 3dcalc -a mask+tlrc -expr 'ispositive(a)' -prefix mask1\n[yuval@meg2: Thu Dec 15 07:34:20 2011] 3dfractionize -template PCtheta_post_pre_visit1+tlrc -input mask1+tlrc -prefix mask5\n[yuval@meg2: Thu Dec 15 07:38:53 2011] 3dcalc -a mask5+tlrc -expr 'ispositive(a)' -prefix MASK~
+
+type = string-attribute
+name = TYPESTRING
+count = 15
+'3DIM_HEAD_FUNC~
+
+type = string-attribute
+name = IDCODE_STRING
+count = 27
+'XYZ_XJd7Iyq_jkdl4B3VTGpgyg~
+
+type = string-attribute
+name = IDCODE_DATE
+count = 25
+'Thu Dec 15 07:38:53 2011~
+
+type = integer-attribute
+name = SCENE_DATA
+count = 8
+ 2 0 1 -999 -999
+ -999 -999 -999
+
+type = string-attribute
+name = LABEL_1
+count = 5
+'zyxt~
+
+type = string-attribute
+name = LABEL_2
+count = 5
+'zyxt~
+
+type = string-attribute
+name = DATASET_NAME
+count = 5
+'zyxt~
+
+type = integer-attribute
+name = ORIENT_SPECIFIC
+count = 3
+ 0 3 4
+
+type  = float-attribute
+name  = ORIGIN
+count = 3
+          -77.5          -77.5          -62.5
+
+type  = float-attribute
+name  = DELTA
+count = 3
+              5              5              5
+
+type  = float-attribute
+name  = IJK_TO_DICOM
+count = 12
+              5              0              0          -77.5              0
+              5              0          -77.5              0              0
+              5          -62.5
+
+type  = float-attribute
+name  = IJK_TO_DICOM_REAL
+count = 12
+              5              0              0          -77.5              0
+              5              0          -77.5              0              0
+              5          -62.5
+
+type  = float-attribute
+name  = BRICK_STATS
+count = 2
+              0              1
+
+type  = float-attribute
+name  = STAT_AUX
+count = 1
+             14
+
+type = integer-attribute
+name = DATASET_RANK
+count = 8
+ 3 1 0 0 0
+ 0 0 0
+
+type = integer-attribute
+name = DATASET_DIMENSIONS
+count = 5
+ 32 38 30 0 0
+
+type = integer-attribute
+name = BRICK_TYPES
+count = 1
+ 1
+
+type  = float-attribute
+name  = BRICK_FLOAT_FACS
+count = 1
+              0
+
+type = string-attribute
+name = BRICK_LABS
+count = 3
+'#0~
+
+type = string-attribute
+name = BRICK_KEYWORDS
+count = 1
+'~
+
+type = string-attribute
+name = TEMPLATE_SPACE
+count = 5
+'TLRC~
+
+type = integer-attribute
+name = INT_CMAP
+count = 1
+ 0
+
+type = string-attribute
+name = BYTEORDER_STRING
+count = 10
+'LSB_FIRST~

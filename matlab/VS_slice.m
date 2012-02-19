@@ -101,5 +101,5 @@ else
 end
 timeline=resampledTime;
 display(['the data timeline is from ',num2str(startTime),' to ',num2str(endTime),' in steps of ',num2str((timeline(2)-timeline(1))*1000),'ms']);
-display('consider change vs values to z scores, medial vs are noisy');
+display('consider change vs values to z scores, deep vs are noisy');
 end

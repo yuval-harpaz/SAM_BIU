@@ -29,15 +29,15 @@ fid = fopen(txtFileName, 'w');
 fprintf(fid,'%s\t%s\t%s\n',PNT);
 fclose(fid);
 if exist('hs+orig.BRIK','file')
-    !rm hs+orig*
+    !rm hds+orig*
 end
 if exist('HS+orig.BRIK','file')
     !rm HS+orig*
 end
 if exist ('ortho+orig.BRIK','file');
-    !~/abin/3dUndump -orient PRI -xyz -dval 1 -master ortho+orig -prefix hs hsTxt
+    !~/abin/3dUndump -orient PRI -xyz -dval 1 -master ortho+orig -prefix hds hsTxt
 elseif exist ('warped+orig.BRIK','file');
-    !~/abin/3dUndump -orient PRI -xyz -dval 1 -master warped+orig -prefix hs hsTxt
+    !~/abin/3dUndump -orient PRI -xyz -dval 1 -master warped+orig -prefix hds hsTxt
 else
     display('cannot find ortho or warped+orig file')
     return
@@ -45,9 +45,9 @@ end
 if strcmp(voxSize,'small')
     return
 end
-!~/abin/3dresample -dxyz 5 5 5 -prefix hsT -inset hs+orig -rmode Cu
-!~/abin/3dfractionize -template hsT+orig -input hs+orig -prefix HS
-!rm hs+orig*
+!~/abin/3dresample -dxyz 5 5 5 -prefix hsT -inset hds+orig -rmode Cu
+!~/abin/3dfractionize -template hsT+orig -input hds+orig -prefix HS
+!rm hds+orig*
 !rm hsT+orig*
 
 %!~/abin/afni -dset ortho+orig

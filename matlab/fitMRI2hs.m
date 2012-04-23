@@ -50,9 +50,14 @@ S.sourcefid = meegfid;
 S.targetfid = mrifid; 
 S.useheadshape = 1;
 S.template = 2;
-M1 = spm_eeg_inv_datareg(S);
+M1 = spm_eeg_inv_datareg_BIU(S);
 %% create a new MRI from template, scaled to subject
-copyfile(fullfile(spm('dir'), 'canonical', 'single_subj_T1.nii'),'T.nii');
+path2file=fullfile(spm('dir'), 'canonical', 'single_subj_T1.nii')
+if isunix
+    eval(['!cp ',path2file,' T.nii'])
+else
+    copyfile(path2file,'T.nii');
+end
 spm_get_space('T.nii', inv(M1)*spm_get_space(fullfile(spm('dir'), 'canonical', 'single_subj_T1.nii')));
 %
 %% rotate the MRI to fit svl images

@@ -22,9 +22,15 @@ if ~exist('model','var')
     model='Nolte';
 end
 if ~exist('resolution','var')
+    resolution=[];
+end
+if isempty(resolution)
     resolution='0.5';
 end
 if ~exist('statistic','var')
+    statistic=[];
+end
+if isempty(statistic)
     statistic='U-Test';
 end
 numStates='2';

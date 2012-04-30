@@ -10,7 +10,13 @@ for i=1:size(vs,2);
     fclose(fid);
     %!~/abin/3dUndump -orient PRI -xyz -dval 1 -master ortho+orig -prefix test txtTest
     !rm test+*
-    !~/abin/3dUndump -orient PRI -xyz -master ortho+orig -dval 0 -prefix test txtVS
+    if exist('ortho+orig.BRIK','file')
+        !~/abin/3dUndump -orient PRI -xyz -master ortho+orig -dval 0 -prefix test txtVS
+    elseif exist('warped+orig.BRIK','file')
+        !~/abin/3dUndump -orient PRI -xyz -master warped+orig -dval 0 -prefix test txtVS
+    else
+        error('no warped or ortho!')
+    end
     !rm test1+*
     !~/abin/3dresample -dxyz 5 5 5 -prefix test1 -inset test+orig -rmode Cu
     !rm test2+*

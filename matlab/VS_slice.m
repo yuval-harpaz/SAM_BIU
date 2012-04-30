@@ -100,6 +100,10 @@ else
     vs=vs./triali;
 end
 timeline=resampledTime;
-display(['the data timeline is from ',num2str(startTime),' to ',num2str(endTime),' in steps of ',num2str((timeline(2)-timeline(1))*1000),'ms']);
+dispStep='0';
+if length(timeline)>1
+    dispStep=num2str((timeline(2)-timeline(1))*1000);
+end
+display(['the data timeline is from ',num2str(startTime),' to ',num2str(endTime),' in steps of ',dispStep,'ms']);
 display('consider change vs values to z scores, deep vs are noisy');
 end

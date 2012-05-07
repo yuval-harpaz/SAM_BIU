@@ -6,6 +6,6 @@ if exist('pnt.txt','file')
 end
 
 fid = fopen('pnt.txt', 'w');
-fprintf(fid,'%s\n',size(pnt,1));
+fprintf(fid,'%s\n',num2str(size(pnt,1)));
 fprintf(fid,'%s\t%s\t%s\n',PNT);
 fclose(fid);

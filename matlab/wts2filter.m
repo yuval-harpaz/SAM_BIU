@@ -1,6 +1,7 @@
 function filter=wts2filter(ActWgts,inside,outN)
-% inside=sourceGlobal.inside;
-% outN=size(sourceGlobal.outside,1);
+% inside=grid.inside;
+% outN=size(grid.outside,1);
+
 
 sensN=248;
 srcN 	   = size(ActWgts,1);

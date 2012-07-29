@@ -1,6 +1,14 @@
-function vsSlice2afni(allInd,vs,prefix);
+function vsSlice2afni(allInd,vs,prefix,Abs);
+try
+    if isempty(Abs)
+        Abs=true;
+    end
+catch
+    Abs=true;
+end
 % get range of vs data
-minVSval=min(min(abs(vs)));fac=10^(ceil(-log10(minVSval)));
+maxVSval=max(max(abs(vs)));
+fac=(2^15-1)./maxVSval; % max value is 32767 (signed short 16bit, 2^15-1)
 %if size(
 allInd=allInd.*10;
 textOP=zeros(size(vs,1),4);
@@ -24,7 +32,16 @@ for i=1:size(vs,2);
     !~/abin/3dresample -dxyz 5 5 5 -prefix test1 -inset test+orig -rmode Cu
     !rm test2+*
     !~/abin/3dfractionize -template test1+orig -input test+orig -preserve -prefix test2
-    eval(['!~/abin/3dcalc -a test2+orig -expr ''','abs(a)/',num2str(fac),'''',' -prefix ',prefix,num2str(i)]);
+    a='abs(a)/';
+    if ~Abs
+        a='a/';
+    end
+    numstr=num2str(i);
+    % pad with zeros
+    while length(numstr)<3
+        numstr=['0',numstr];
+    end
+    eval(['!~/abin/3dcalc -a test2+orig -expr ''',a,num2str(fac),'''',' -prefix ',prefix,numstr]);
     display(['wrote ',num2str(i),' of ',num2str(size(vs,2)),' files']);
 end
 end

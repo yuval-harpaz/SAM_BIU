@@ -18,9 +18,9 @@ ind= (vox(1)-boxSize(1))/step*sizes(2)*sizes(3)+...
     (vox(3)-boxSize(5))/step+1;
 display(['index=',num2str(ind)]);
 %% creating a matrix
+allInd=[];
 if exist('allIndices','var')
     if allIndices==1
-        allInd=[];
         i=0;
         for x=boxSize(1):step:boxSize(2)
             for y=boxSize(3):step:boxSize(4)

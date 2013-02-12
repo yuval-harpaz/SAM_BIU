@@ -13,7 +13,30 @@ function createPARAM(fileName,SAMprog,actName,actWin,contName,contWin,band,segme
 % computed on a large [-0.1 0.7] segment
 % createPARAM('test','SPM','rest1',[0.1 0.2],'rest2',[0.1 0.2],[3 35],[-0.1 0.7]);
 
-% setting defaults and numbers to text
+%% ImageMode
+% 
+% Z-Test
+% T-Test
+% F-Test
+% U-Test
+% Pseudo-Z
+% Pseudo-T
+% Pseudo-F
+% Sum-Ranks
+% ERF
+% Diff-ERF
+%% ImageMetric
+% Power
+% PermEntropy <PermSize Tau>
+% RankEntropy <Size Tau>
+% RankVectorEntropy <Tau>
+% SpectEntropy
+% Kurtosis
+% Predict <Order>
+
+
+
+%% setting defaults and numbers to text
 fileName=[fileName,'.param'];
 if ~exist('metric','var')
     metric='Power';

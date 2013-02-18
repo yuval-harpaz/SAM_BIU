@@ -33,8 +33,11 @@ function createPARAM(fileName,SAMprog,actName,actWin,contName,contWin,band,segme
 % SpectEntropy
 % Kurtosis
 % Predict <Order>
-
-
+%
+%% Model
+% SingleSphere <x y z> cm
+% MultiSphere
+% Nolte
 
 %% setting defaults and numbers to text
 fileName=[fileName,'.param'];

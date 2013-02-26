@@ -6,7 +6,7 @@ function M=fitMRI2hs(data);
 cfg.dataset=data;
 cfg.trialdef.poststim=0.1;
 cfg.trialfun='trialfun_beg';
-cfg1=definetrial(cfg);
+cfg1=ft_definetrial(cfg);
 cfg1.channel='A1';
 ftdata=ft_preprocessing(cfg1);
 %% creating SPM data

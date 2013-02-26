@@ -13,10 +13,12 @@ function [ind,allInd]=voxIndex(vox,boxSize,step,allIndices)
 sizes=diff(boxSize);
 sizes=sizes(1:2:5);
 sizes=sizes/step+1;
-ind= (vox(1)-boxSize(1))/step*sizes(2)*sizes(3)+...
-    (vox(2)-boxSize(3))/step*sizes(3)+...
-    (vox(3)-boxSize(5))/step+1;
-display(['index=',num2str(ind)]);
+for indi=1:size(vox,1)
+    ind(indi,1)= (vox(indi,1)-boxSize(1))/step*sizes(2)*sizes(3)+...
+        (vox(indi,2)-boxSize(3))/step*sizes(3)+...
+        (vox(indi,3)-boxSize(5))/step+1;
+    %display(['index=',num2str(ind)]);
+end
 %% creating a matrix
 allInd=[];
 if exist('allIndices','var')

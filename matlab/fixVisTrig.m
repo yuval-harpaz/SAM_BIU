@@ -22,6 +22,13 @@ function [newtrig,events]=fixVisTrig(trig,prestim,onORoffset,alltrigs)
 % for standart visual experiments run as
 % [newtrig,events]=fixVisTrig(trig,102,'onset',1);
 %%
+try isempty(prestim)
+    if isempty(prestim)
+        prestim=100;
+    end
+catch
+    prestim=100;
+end
 if ~exist('onORoffset','var')
     onORoffset='onset';
 end
@@ -36,7 +43,7 @@ trigf=bitset(trigf,10,0);  %getting rid of trigger 512 (9)
 %trigf=bitset(trigf,11,0);
 
 trigf=bitset(trigf,10,0);  %getting rid of trigger 512 (10)
-%trigf=bitset(trigf,11,0);  %getting rid of trigger 1024 (11)
+trigf=bitset(trigf,11,0);  %getting rid of trigger 1024 (11)
 vis=bitand(trigf,2048);   % reading the visual information
 trigf=bitset(trigf,12,0);   %getting rid of trigger 2048 (12)
 visonset=vis(1,:);visonset(1,1)=0;visonset(1,2:end)=visonset(1,2:end)-visonset(1,1:(end-1));

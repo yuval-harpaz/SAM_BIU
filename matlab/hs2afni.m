@@ -1,9 +1,10 @@
-function hs2afni(voxSize) %(source)
+function hs2afni(voxSize,mri) %(source)
 % creates an AFNI file with the digitization points
 % 'small' voxSize creates a hs+orig file with small digitization
 % points
 % 'big' voxSize (default) creates HS+orig file with 5x5x5mm cubes around the points
 %requires hs_file and ortho+orig or warped+orig
+% mri, file name instead of ortho/warped
 if ~exist('voxSize','var')
     voxSize='big';
 end
@@ -34,13 +35,17 @@ end
 if exist('HS+orig.BRIK','file')
     !rm HS+orig*
 end
-if exist ('ortho+orig.BRIK','file');
-    !~/abin/3dUndump -orient PRI -xyz -dval 1 -master ortho+orig -prefix hds hsTxt
-elseif exist ('warped+orig.BRIK','file');
-    !~/abin/3dUndump -orient PRI -xyz -dval 1 -master warped+orig -prefix hds hsTxt
+if exist('mri','var')
+    eval(['!~/abin/3dUndump -orient PRI -xyz -dval 1 -master ',mri,' -prefix hds hsTxt']);
 else
-    display('cannot find ortho or warped+orig file')
-    return
+    if exist ('ortho+orig.BRIK','file');
+        !~/abin/3dUndump -orient PRI -xyz -dval 1 -master ortho+orig -prefix hds hsTxt
+    elseif exist ('warped+orig.BRIK','file');
+        !~/abin/3dUndump -orient PRI -xyz -dval 1 -master warped+orig -prefix hds hsTxt
+    else
+        display('cannot find ortho or warped+orig file')
+        return
+    end
 end
 if strcmp(voxSize,'small')
     return

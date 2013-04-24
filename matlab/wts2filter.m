@@ -5,9 +5,11 @@ function filter=wts2filter(ActWgts,inside,outN)
 
 sensN=248;
 srcN 	   = size(ActWgts,1);
-for i=1:(srcN+outN)
-    filter{i}=[];
-end
+filter = cell(1,srcN+outN);
+% for i=1:(srcN+outN)
+%     filter{i}=[]; loop unnecessary after fix
+% end
+
 for i=1:srcN,
     si = inside(i);
     %if ~isempty(sourceGlobal.avg.filter{m})

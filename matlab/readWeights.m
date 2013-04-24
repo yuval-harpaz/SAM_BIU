@@ -80,10 +80,14 @@ end
 % % jnk = fread(fid, 2, 'char=>char');
 % 
 %% Read the weights
+WeightsBuffer = fread(fid, NumWeights*NumChans, 'double=>double',  'ieee-be');
+bufferCounter = 0;
 ActWgts = nan(NumWeights,NumChans);
 for c =1:NumWeights
     for m = 1:NumChans
-        ActWgts(c,m) = fread(fid, 1, 'double=>double',  'ieee-be');
+        bufferCounter = bufferCounter + 1;
+        ActWgts(c,m) = WeightsBuffer(bufferCounter);
+        %ActWgts(c,m) = fread(fid, 1, 'double=>double',  'ieee-be');
     end
 end
 

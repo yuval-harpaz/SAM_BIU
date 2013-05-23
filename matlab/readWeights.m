@@ -6,11 +6,11 @@ function [SAMHeader, ActIndex, ActWgts]=readWeights(fileName)
 fid = fopen(fileName,'r'); % 'ieee-le' or 'ieee-be'
 %% read the header
 title = fread(fid , 8, 'char=>char')';
-disp(['Title = ' title])
+%disp(['Title = ' title])
 Version = fread(fid, 1, 'int32=>int32',  'ieee-be');
-disp(['Version = ' num2str(Version)]);
+%disp(['Version = ' num2str(Version)]);
 setName = fread(fid , 256, 'char=>char')';
-disp(['setName = ' setName]);
+%disp(['setName = ' setName]);
 NumChans = fread(fid, 1, 'int32=>int32',  'ieee-be');
 NumWeights = fread(fid, 1, 'int32=>int32',  'ieee-be');
 virtualSensors = fread(fid, 1, 'int32=>int32',  'ieee-be');

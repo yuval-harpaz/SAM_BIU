@@ -128,7 +128,7 @@ eval(['!echo ImageMetric ',metric,' >> ',fileName]);
 eval(['!echo XBounds -12.0 12.0 >> ',fileName]);
 eval(['!echo YBounds -9.0 9.0 >> ',fileName]);
 eval(['!echo ZBounds -2.0 15.0 >> ',fileName]);
-eval(['!echo ImageStep ',resolution,' >> ',fileName]);
+eval(['!echo ImageStep ',num2str(resolution),' >> ',fileName]);
 eval(['!echo ImageMode ',mode,' >> ',fileName]);
 eval(['!echo Model ',model,' >> ',fileName]);
 if strcmp(numStates,'2')

@@ -25,7 +25,7 @@ fmt = ">%dd" % (N * N)
 buf = cov.read(struct.calcsize(fmt))
 mat = struct.unpack(fmt, buf)
 
-print N
+# print N
 for i in range(N):
 	for j in range(N):
 		print mat[i * N + j]

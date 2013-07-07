@@ -3,6 +3,9 @@ function M=fitMRI2hs(data);
 % fidutial points
 % examplecommand: fitMRI2hs('c,rfDC');
 %% creating fieldTrip data
+if exist('./warped+tlrc.BRIK','file')
+    error('warped+tlrc exists, may cause conflict')
+end
 cfg.dataset=data;
 cfg.trialdef.poststim=0.1;
 cfg.trialfun='trialfun_beg';
@@ -73,8 +76,14 @@ delete modtempfile.mat
 delete modtempfile.dat
 if exist('~/abin','dir')
     !~/abin/3dWarp -deoblique T.nii
+    if exist('warped+tlrc.BRIK','file')
+        !~/abin/3drefit -view orig warped+tlrc
+    end
 elseif exist('/home/megadmin/abin','dir')
     !/home/megadmin/abin/3dWarp -deoblique T.nii
+    if exist('warped+tlrc.BRIK','file')
+        !/home/megadmin/abin/3drefit -view orig warped+tlrc
+    end
 else
     warning('afni folder wasnt found. in a terminal write: 3dWarp -deoblique T.nii');
 end

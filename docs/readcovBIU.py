@@ -9,7 +9,7 @@ import sys, struct
 filename = sys.argv[1] 
 cov = open(filename)
 # Read the header.
-fmt = ">8s1i256s256s1i3d3i4x"
+fmt = ">8s1i256s256s1i4d3i4x"
 head = cov.read(struct.calcsize(fmt))
 l = struct.unpack(fmt, head)
 N = l[4] # 248

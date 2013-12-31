@@ -3,8 +3,8 @@ function masktlrc(tlrcFile,templateMask,suffix)
 % functional data after transfer to talairach coordinates.
 % tlrcFile='something+tlrc', the functional data. it has to be in tlrc space and with
 % 5x5x5mm resolution.
-% two template masks are available, 'MASK+tlrc' (inner skull, default) and
-% 'MASKbrain+tlrc', brain.
+% three template masks are available, 'MASK+tlrc' (inner skull, default),
+% 'MASKbrain+tlrc', brain and 'MASKctx+tlrc' for the cortex.
 % if you don't give a suffix it will overwrite the original file.
 if ~exist('templateMask','var')
     templateMask=[];
@@ -12,7 +12,7 @@ end
 if isempty(templateMask)
     templateMask='MASK+tlrc';
 end
-if strcmp(templateMask,'MASK+tlrc') || strcmp(templateMask,'MASKbrain+tlrc')
+if strcmp(templateMask,'MASK+tlrc') || strcmp(templateMask,'MASKbrain+tlrc') || strcmp(templateMask,'MASKctx+tlrc')
     templateMask=['~/SAM_BIU/docs/',templateMask];
 end
 if ~exist('suffix','var')

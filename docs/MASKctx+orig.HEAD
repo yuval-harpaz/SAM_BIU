@@ -1,0 +1,157 @@
+
+type = string-attribute
+name = HISTORY_NOTE
+count = 10947
+'[yuval@meg2: Tue Aug 20 15:39:21 2013] ===================================\n[yuval@meg2: Tue Aug 20 15:39:21 2013] === History of inputs to 3dcalc ===\n[yuval@meg2: Tue Aug 20 15:39:21 2013] === Input a:\n[yuval@meg2: Tue Aug 20 15:39:21 2013] [yuval@meg2: Tue Aug 20 15:27:40 2013] ===================================\n[yuval@meg2: Tue Aug 20 15:27:40 2013] === History of inputs to 3dcalc ===\n[yuval@meg2: Tue Aug 20 15:27:40 2013] === Input a:\n[yuval@meg2: Tue Aug 20 15:27:40 2013] [yuval@meg2: Tue Aug 20 14:31:24 2013] ===================================\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === History of inputs to 3dcalc ===\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === Input a:\n[yuval@meg2: Tue Aug 20 14:31:24 2013] [yuval@meg2: Tue Aug 20 14:24:21 2013] whereami -mask_atlas_region CA_ML_18_MNIA:109 -prefix clm109\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === Input b:\n[yuval@meg2: Tue Aug 20 14:31:24 2013] [yuval@meg2: Tue Aug 20 14:24:21 2013] whereami -mask_atlas_region CA_ML_18_MNIA:110 -prefix clm110\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === Input c:\n[yuval@meg2: Tue Aug 20 14:31:24 2013] [yuval@meg2: Tue Aug 20 14:24:21 2013] whereami -mask_atlas_region CA_ML_18_MNIA:111 -prefix clm111\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === Input d:\n[yuval@meg2: Tue Aug 20 14:31:24 2013] [yuval@meg2: Tue Aug 20 14:24:21 2013] whereami -mask_atlas_region CA_ML_18_MNIA:112 -prefix clm112\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === Input e:\n[yuval@meg2: Tue Aug 20 14:31:24 2013] [yuval@meg2: Tue Aug 20 14:24:21 2013] whereami -mask_atlas_region CA_ML_18_MNIA:113 -prefix clm113\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === Input f:\n[yuval@meg2: Tue Aug 20 14:31:24 2013] [yuval@meg2: Tue Aug 20 14:24:21 2013] whereami -mask_atlas_region CA_ML_18_MNIA:114 -prefix clm114\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === Input g:\n[yuval@meg2: Tue Aug 20 14:31:24 2013] [yuval@meg2: Tue Aug 20 14:24:21 2013] whereami -mask_atlas_region CA_ML_18_MNIA:115 -prefix clm115\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === Input h:\n[yuval@meg2: Tue Aug 20 14:31:24 2013] [yuval@meg2: Tue Aug 20 14:24:21 2013] whereami -mask_atlas_region CA_ML_18_MNIA:116 -prefix clm116\n[yuval@meg2: Tue Aug 20 14:31:24 2013] === Input z:\n[yuval@meg2: Tue Aug 20 14:31:24 2013] [yuval@meg2: Tue Aug 20 14:10:01 2013] ===================================\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === History of inputs to 3dcalc ===\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input a:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:58:15 2013] whereami -mask_atlas_region CA_ML_18_MNIA:71 -prefix clm71\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input b:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:58:15 2013] whereami -mask_atlas_region CA_ML_18_MNIA:72 -prefix clm72\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input c:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:58:15 2013] whereami -mask_atlas_region CA_ML_18_MNIA:73 -prefix clm73\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input d:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:58:15 2013] whereami -mask_atlas_region CA_ML_18_MNIA:74 -prefix clm74\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input e:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:58:15 2013] whereami -mask_atlas_region CA_ML_18_MNIA:75 -prefix clm75\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input f:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:58:15 2013] whereami -mask_atlas_region CA_ML_18_MNIA:76 -prefix clm76\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input g:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:58:15 2013] whereami -mask_atlas_region CA_ML_18_MNIA:77 -prefix clm77\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input h:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:58:15 2013] whereami -mask_atlas_region CA_ML_18_MNIA:78 -prefix clm78\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input i:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:91 -prefix clm91\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input j:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:92 -prefix clm92\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input k:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:93 -prefix clm93\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input l:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:94 -prefix clm94\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input m:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:95 -prefix clm95\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input n:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:96 -prefix clm96\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input o:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:97 -prefix clm97\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input p:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:98 -prefix clm98\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input q:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:99 -prefix clm99\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input r:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:100 -prefix clm100\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input s:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:101 -prefix clm101\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input t:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:102 -prefix clm102\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input u:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:58 2013] whereami -mask_atlas_region CA_ML_18_MNIA:103 -prefix clm103\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input v:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:59 2013] whereami -mask_atlas_region CA_ML_18_MNIA:104 -prefix clm104\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input w:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:59 2013] whereami -mask_atlas_region CA_ML_18_MNIA:105 -prefix clm105\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input x:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:59 2013] whereami -mask_atlas_region CA_ML_18_MNIA:106 -prefix clm106\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input y:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:59 2013] whereami -mask_atlas_region CA_ML_18_MNIA:107 -prefix clm107\n[yuval@meg2: Tue Aug 20 14:10:01 2013] === Input z:\n[yuval@meg2: Tue Aug 20 14:10:01 2013] [yuval@meg2: Tue Aug 20 13:43:59 2013] whereami -mask_atlas_region CA_ML_18_MNIA:108 -prefix clm108\n[yuval@meg2: Tue Aug 20 14:10:01 2013] ===================================\n[yuval@meg2: Tue Aug 20 14:10:01 2013] 3dcalc -a clm71+tlrc -b clm72+tlrc -c clm73+tlrc -d clm74+tlrc -e clm75+tlrc -f clm76+tlrc -g clm77+tlrc -h clm78+tlrc -i clm91+tlrc -j clm92+tlrc -k clm93+tlrc -l clm94+tlrc -m clm95+tlrc -n clm96+tlrc -o clm97+tlrc -p clm98+tlrc -q clm99+tlrc -r clm100+tlrc -s clm101+tlrc -t clm102+tlrc -u clm103+tlrc -v clm104+tlrc -w clm105+tlrc -x clm106+tlrc -y clm107+tlrc -z clm108+tlrc -prefix most -exp a+b+c+d+e+f+g+h+i+j+k+l+m+n+o+p+q+r+s+t+u+v+w+x+y+z\n[yuval@meg2: Tue Aug 20 14:31:24 2013] ===================================\n[yuval@meg2: Tue Aug 20 14:31:24 2013] 3dcalc -z most+tlrc -a clm109+tlrc -b clm110+tlrc -c clm111+tlrc -d clm112+tlrc -e clm113+tlrc -f clm114+tlrc -g clm115+tlrc -h clm116+tlrc -prefix stem -exp a+b+c+d+e+f+g+h+z\n[yuval@meg2: Tue Aug 20 15:22:35 2013] 3dresample -master MASKbrainSymm+tlrc -prefix stem_5 -inset stem+tlrc\n[yuval@meg2: Tue Aug 20 15:27:40 2013] === Input b:\n[yuval@meg2: Tue Aug 20 15:27:40 2013] [yuval@meg2: Tue Aug 20 13:58:47 2013] whereami -mask_atlas_region DD_Desai_MPM:162 -prefix clm162\n[yuval@meg2: Tue Aug 20 15:25:24 2013] 3dresample -master MASKbrainSymm+tlrc -prefix clm162_5 -inset clm162+tlrc\n[yuval@meg2: Tue Aug 20 15:27:40 2013] ===================================\n[yuval@meg2: Tue Aug 20 15:27:40 2013] 3dcalc -prefix all -a stem_5+tlrc -b clm162_5+tlrc -exp a+b\n[yuval@meg2: 20-Aug-2013 15:36:13]\n\t/home/yuval/atlas\n\tWriteBrik(ln464)\n[yuval@meg2: Tue Aug 20 15:39:21 2013] === Input b:\n[yuval@meg2: Tue Aug 20 15:39:21 2013] [dglen@gollum.local: Wed Aug  1 13:46:01 2007] 3dcopy /Users/dglen/spm5/toolbox/Anatomy/colin27T1_seg.hdr ./MNIa_N27+tlrc\n[dglen@gollum.local: Wed Aug  1 13:46:01 2007] 3drefit -sublabel 0 colin27T1_seg MNIa_N27+tlrc\n[dglen@gollum.local: Wed Aug  1 13:46:02 2007] 3dcopy ./MNIa_N27+tlrc MNI_N27\n[dglen@gollum.local: Wed Aug  1 13:46:02 2007] 3drefit -dxorigin 0.000000 -dyorigin -4.000000 -dzorigin -5.000000 MNI_N27+tlrc\n[dglen@gollum.local: Wed Aug  1 13:46:02 2007] @Shift_Volume -MNI_Anat_to_MNI -dset MNIa_N27+tlrc -prefix MNI_N27\n[dglen@gollum.local: Wed Aug  1 13:46:03 2007] adwarp.c -resam Cu -force -apar /Users/dglen/afni/src/ZILLES_N27_ATLASES/N27/TT_N27+tlrc.HEAD -dpar MNI_N27+tlrc -prefix TT_N27\n[dglen@ndsl-lfmi-kocha.nih.gov: Thu Sep  9 14:00:34 2010] 3drefit -space TLRC /Users/dglen/abin/TT_EPI+tlrc.HEAD /Users/dglen/abin/TT_N27+tlrc.HEAD /Users/dglen/abin/TT_N27_CA_EZ_MPM+tlrc.HEAD /Users/dglen/abin/TT_N27_CA_EZ_PMaps+tlrc.HEAD /Users/dglen/abin/TT_N27_EZ_LR+tlrc.HEAD /Users/dglen/abin/TT_N27_EZ_ML+tlrc.HEAD /Users/dglen/abin/TT_avg152T1+tlrc.HEAD /Users/dglen/abin/TT_avg152T2+tlrc.HEAD /Users/dglen/abin/TT_icbm452+tlrc.HEAD /Users/dglen/abin/TTatlas+tlrc.HEAD\n[idan@idan-Precision-T1500: Wed Jan  4 15:42:46 2012] 3dcalc -a TT_N27+tlrc -prefix MASK_TT_N27 -expr 'ispositive(a)'\n[idan@idan-Precision-T1500: Thu Jan  5 09:31:06 2012] 3dresample -dxyz 5 5 5 -prefix hsT -inset MASK_TT_N27+tlrc -rmode Cu\n[yuval@meg2: 20-Aug-2013 10:48:41]\n\t/home/yuval/SAM_BIU/docs\n\tWriteBrik(ln464)\n[yuval@meg2: Tue Aug 20 15:39:21 2013] ===================================\n[yuval@meg2: Tue Aug 20 15:39:21 2013] 3dcalc -prefix MASKctx -a allSymm+tlrc -b MASKbrainSymm+tlrc -exp 'ispositive(b-a)'\n[yuval@meg2: 20-Aug-2013 17:22:20]\n\t/home/yuval/atlas\n\tWriteBrik(ln464)\n[yuval@meg2: Mon Jan 20 09:17:10 2014] adwarp.c -apar ortho+orig -dpar /home/yuval/SAM_BIU/docs/MASKctx+tlrc -dxyz 5~
+
+type = string-attribute
+name = TYPESTRING
+count = 15
+'3DIM_HEAD_ANAT~
+
+type = string-attribute
+name = IDCODE_STRING
+count = 27
+'XYZ_kiY3Jqo0MF301-k_eDvCXg~
+
+type = string-attribute
+name = IDCODE_DATE
+count = 25
+'Mon Jan 20 09:17:10 2014~
+
+type = string-attribute
+name = IDCODE_ANAT_PARENT
+count = 27
+'XYZ_faWxN6tqJ-re_j_jZW8A7w~
+
+type = string-attribute
+name = IDCODE_WARP_PARENT
+count = 27
+'XYZ_ShRt-jn_Bb4Gkq33TvE3pw~
+
+type = integer-attribute
+name = SCENE_DATA
+count = 8
+ 0 0 0 -999 -999
+ -999 -999 -999
+
+type = string-attribute
+name = LABEL_1
+count = 5
+'zyxt~
+
+type = string-attribute
+name = LABEL_2
+count = 5
+'zyxt~
+
+type = string-attribute
+name = DATASET_NAME
+count = 19
+'zyxt@Original View~
+
+type = string-attribute
+name = WARP_PARENTNAME
+count = 5
+'zyxt~
+
+type = string-attribute
+name = ANATOMY_PARENTNAME
+count = 5
+'zyxt~
+
+type = integer-attribute
+name = ORIENT_SPECIFIC
+count = 3
+ 3 5 1
+
+type  = float-attribute
+name  = ORIGIN
+count = 3
+         -124.5          177.5          124.5
+
+type  = float-attribute
+name  = DELTA
+count = 3
+              5             -5             -5
+
+type  = float-attribute
+name  = IJK_TO_DICOM
+count = 12
+              0              0             -5          124.5              5
+              0              0         -124.5              0             -5
+              0          177.5
+
+type  = float-attribute
+name  = IJK_TO_DICOM_REAL
+count = 12
+              0              0             -5          124.5              5
+              0              0         -124.5              0             -5
+              0          177.5
+
+type = integer-attribute
+name = WARP_TYPE
+count = 8
+ 0 0 -999 -999 -999
+ -999 -999 -999
+
+type  = float-attribute
+name  = WARP_DATA
+count = 30
+              1              0              0              0              1
+              0              0              0              1              1
+              0              0              0              1              0
+              0              0              1              0              0
+              0              0              0              0          -9999
+          -9999          -9999           9999           9999           9999
+
+type  = float-attribute
+name  = BRICK_STATS
+count = 2
+              0              1
+
+type = integer-attribute
+name = DATASET_RANK
+count = 8
+ 3 1 0 0 0
+ 0 0 0
+
+type = integer-attribute
+name = DATASET_DIMENSIONS
+count = 5
+ 51 51 51 0 0
+
+type = integer-attribute
+name = BRICK_TYPES
+count = 1
+ 3
+
+type  = float-attribute
+name  = BRICK_FLOAT_FACS
+count = 1
+     3.0581e-05
+
+type = string-attribute
+name = BRICK_LABS
+count = 4
+'109~
+
+type = string-attribute
+name = BRICK_KEYWORDS
+count = 1
+'~
+
+type = string-attribute
+name = TEMPLATE_SPACE
+count = 5
+'ORIG~
+
+type = integer-attribute
+name = INT_CMAP
+count = 1
+ 0
+
+type = string-attribute
+name = BYTEORDER_STRING
+count = 10
+'LSB_FIRST~

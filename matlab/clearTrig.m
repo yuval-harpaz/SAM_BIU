@@ -1,5 +1,5 @@
 function [newtrig]=clearTrig(trig)
-warning('50Hz cleaning with cleanMEG pack will not be possible using the new trigger'); %#ok<WNTAG>
+%warning('50Hz cleaning with cleanMEG pack will not be possible using the new trigger'); %#ok<WNTAG>
 trig16=uint16(trig);
 trigf=bitset(trig16,9,0); %getting rid of trigger 256 (9)
 trigf=bitset(trigf,10,0);  %getting rid of trigger 512 (10)

@@ -4,9 +4,9 @@ function orig=tlrc2orig(tlrc,warpedFile)
 % give it the path to warped or ortho+tlrc file (no need for suffix)
 if ~exist('warpedFile','var')
     if exist('ortho+tlrc.BRIK','file')
-        warpedFile='ortho+tlrc';
+        warpedFile='ortho';
     elseif exist('warped+tlrc.BRIK','file')
-        warpedFile='warped+tlrc';
+        warpedFile='warped';
     else
         error('no warped tlrc file found or specified')
     end
@@ -24,7 +24,7 @@ if size(tlrc,1)>1
     end
 end
 % transforming in RAI order
-! ~/abin/Vecwarp -input ~/Desktop/tlrcRAI.coord -force -output ~/Desktop/origRAI.coord -apar warped+tlrc -backward
+eval(['! ~/abin/Vecwarp -input ~/Desktop/tlrcRAI.coord -force -output ~/Desktop/origRAI.coord -apar ',warpedFile,'+tlrc -backward']);
 orig=importdata('~/Desktop/origRAI.coord');
 % RAI to PRI
 x=(-1)*orig(:,2);

@@ -15,13 +15,15 @@ end
 tlrc(:,1)=(-1).*tlrc(:,1);
 tlrc(:,2)=(-1).*tlrc(:,2);
 % write to temp text file
-TLRC=num2str(tlrc(1,:));
-eval(['!echo ',TLRC,' > ~/Desktop/tlrcRAI.coord'])
 if size(tlrc,1)>1
-    for rowi=2:size(tlrc,1)
-        TLRC=num2str(tlrc(rowi,:));
-        eval(['!echo ',TLRC,' >> ~/Desktop/tlrcRAI.coord'])
-    end
+    PNT=reshape(tlrc',size(tlrc,1)*3,1);
+    txtFileName = '~/Desktop/tlrcRAI.coord';
+    fid = fopen(txtFileName, 'w');
+    fprintf(fid,'%f\t%f\t%f\n',PNT);
+    fclose(fid);
+else
+    TLRC=num2str(tlrc(1,:));
+    eval(['!echo ',TLRC,' > ~/Desktop/tlrcRAI.coord'])
 end
 % transforming in RAI order
 eval(['! ~/abin/Vecwarp -input ~/Desktop/tlrcRAI.coord -force -output ~/Desktop/origRAI.coord -apar ',warpedFile,'+tlrc -backward']);

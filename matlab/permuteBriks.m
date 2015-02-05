@@ -128,7 +128,7 @@ for permi=1:Nperm
                 uinput = input('perm files exist, 1=overwrite, 2=skip, 3=abort: your choice?  ','s');
                 switch uinput
                     case '1'
-                        !rm perm/perm*+tlrc*
+                        !rm perm/*+tlrc*
                         [~, w] = unix(command);
                         err=findstr('ERROR',w);
                         if ~isempty(err)
@@ -222,9 +222,16 @@ permResults.Pthreshold=p;
 permResults.Tthreshold=Tthresholds;
 permResults.critClustSize=critClustSize;
 permResults.critT=Tcrit;
-save permResults permResults
+permResults.variables.varA=varA;
+permResults.variables.varB=varB;
+permResults.variables.Folder=Folder;
+permResults.variables.mask=mask;
+permResults.variables.subBrik=subBrik;
+str=datestr(now);
+str=strrep(str,' ','_')
+save(['permResults',str],'permResults')
 % % dig in results
-[~,w]=unix('~/abin/3dBrickStat -min -max realTest+tlrc[1]')
+[~,w]=unix('~/abin/3dBrickStat -min -max realTest+tlrc[1]');
 tReal=str2num(w);
 if -tReal(1)>Tcrit
     disp(['most negative t (',num2str(tReal(1)),') is significant!'])
@@ -281,87 +288,4 @@ disp(['pos clust  = ',num2str(clustSizeReal(:,2)')])
 
 disp('summary saved as permResults:')
 disp(permResults)
-% tReal=importdata('tMinMaxReal.txt');
-%
-% % compute volume of largest positive and negative clusters
-% eval(['!~/abin/3dcalc -a ',prefix,'ttest+tlrc''','[1]''',' -exp ''','ispositive(a-',num2str(tThresh),')*a''',' -prefix pos'])
-% eval(['!~/abin/3dcalc -a ',prefix,'ttest+tlrc''','[1]''',' -exp ''','isnegative(a+',num2str(tThresh),')*a''',' -prefix neg'])
-% eval(['!~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 neg+tlrc > negClust.txt'])
-% eval(['!~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 pos+tlrc > posClust.txt'])
-% negClust=importdata('negClust.txt');
-% posClust=importdata('posClust.txt');
-% if iscell(negClust)
-%     negClustSize=0;
-% else
-%     negClustSize=negClust(1)/125;
-% end
-% if iscell(posClust)
-%     posClustSize=0;
-% else
-%     posClustSize=posClust(1)/125;
-% end
-% clustSizeReal=[negClustSize,posClustSize];
-% !rm neg+tlrc*
-% !rm pos+tlrc*
-% !rm *Clust.txt
-% % messages
-% sig={' ',' ',' ',' '};
-% nothing=true;
-% if -tReal(1)>critT
-%     sig{1}='*';
-%     nothing=false;
-% end
-% if tReal(2)>critT
-%     sig{2}='*';
-%     nothing=false;
-% end
-% if clustSizeReal(1)>critClustSize
-%     sig{3}='*';
-%     nothing=false;
-% end
-% if clustSizeReal(2)>critClustSize
-%     sig{4}='*';
-%     nothing=false;
-% end
-% disp(['critical T value = ',num2str(critT)]);
-% disp(['extreme t values are: ',num2str(tReal(1)),' ',sig{1},'     ',num2str(tReal(2)),sig{2}])
-% disp(['critical cluster size is = ',num2str(critClustSize)]);
-% disp(['neg and pos clusters: ',num2str(clustSizeReal(1)),' ',sig{3},'     ',num2str(clustSizeReal(2)),sig{4}])
-% disp('')
-% if nothing
-%     disp('NOTHING!!!')
-% end
-%
-% % now open AFNI and view Post_Pre+tlrc.
-% % to see if you have sig voxels check the range of the overlay (see arrow0). Note, there
-% % are two images there, means difference (brik[0]) and t values (brik[1]).
-% % choose [1] in Define Overlay (Arrow1).
-% % to see if you have large clusters set the threshold to tThresh (arrow with no number), click on
-% % clusterize (arrow2), set (arrow3), Rpt (arrow4). Look at the list for
-% % cluster size (arrow6).
-%
-% !~/abin/afni -dset ~/SAM_BIU/docs/temp+tlrc &
-% !rm *_neg*
-% !rm TTnew+tlrc*
-
-
-% command = ['~/abin/3dttest++ -paired -no1sam -mask ~/SAM_BIU/docs/MASKctx+tlrc -prefix M100',...
-%     ' -setA Sacc ',...
-%     ' sub1 Ma_1+tlrc[49]',...
-%     ' sub2 Ma_2+tlrc[49]',...
-%     ' sub3 Ma_3+tlrc[49]',...
-%     ' sub4 Ma_4+tlrc[49]',...
-%     ' sub5 Ma_5+tlrc[49]',...
-%     ' sub6 Ma_6+tlrc[49]',...
-%     ' sub7 Ma_7+tlrc[49]',...
-%     ' sub8 Ma_8+tlrc[49]',...
-%     ' -setB WbW ',...
-%     ' sub1 Mw_1+tlrc[49]',...
-%     ' sub2 Mw_2+tlrc[49]',...
-%     ' sub3 Mw_3+tlrc[49]',...
-%     ' sub4 Mw_4+tlrc[49]',...
-%     ' sub5 Mw_5+tlrc[49]',...
-%     ' sub6 Mw_6+tlrc[49]',...
-%     ' sub7 Mw_7+tlrc[49]',...
-%     ' sub8 Mw_8+tlrc[49]'];
-% [~, ~] = unix(command);
+disp(['reminder, positive means ',varA,' > ',varB])

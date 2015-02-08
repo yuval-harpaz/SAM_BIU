@@ -216,6 +216,7 @@ for thri=1:length(p)
     clustSize=sort(clustSize(:));
     critClustSize(thri)=clustSize(floor(0.95*permi*2));
     clustSize=[];
+    disp('')
 end
 
 permResults.Pthreshold=p;

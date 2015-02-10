@@ -1,4 +1,4 @@
-function permuteBriks(varA,varB,Folder,mask,subBrik)
+function permuteBriks(varA,varB,Folder,mask,subBrik,pThr)
 % here we make permutations for two conditions per subjects, mixing the
 % conditions randomly to find critical t value and cluster size.
 % use 'Folder' when you have folders per subject with tlrc files that have the
@@ -177,7 +177,15 @@ T=sort(abs(T(:)));
 Tcrit=T(end-floor(length(T)/20)+1);
 disp(['critical t-value is ',num2str(Tcrit)])
 %% get crit clust size
-p=[0.01 0.025 0.05 0.1]; % try different threshold
+if exist('pThr','var')
+    if isempty(pThr)
+        p=[0.01 0.025 0.05 0.1]; % try different threshold
+    else
+        p=pThr;
+    end
+else
+    p=[0.01 0.025 0.05 0.1];
+end
 Tthresholds=abs(tinv(p/2,n-1));
 disp('looking for clusters')
 for thri=1:length(p)

@@ -1,8 +1,18 @@
 function permuteMovie(varA,varB,Folder,mask,subBrik,pThr,sizeORt)
 % permuteMovie('Ma_','Mw_',[],[],145:150,0.01,'both');
+% see permuteBriks and permuteResults for variables info
+% subBrik is a choice of sub-briks like 0:30. leave empty to look for all
+% briks in sub number 1
 PWD=pwd;
 if strcmp(PWD(end-3:end),'perm')
     cd ..
+end
+if isempty(subBrik)
+    LS=ls([varA,'*']);
+    plusi=findstr(LS,'+');
+    sub1=LS(1:plusi+4);
+    [~, Info] = BrikLoad (sub1);
+    subBrik=0:(Info.TAXIS_NUMS(1)-1);
 end
 skip=[];
 for briki=subBrik
@@ -26,7 +36,7 @@ for briki=subBrik
     end
     if doPerm
         disp(['subBrik ',num2str(briki),', last is ',num2str(subBrik(end))]);
-        permuteBriks(varA,varB,Folder,mask,briki)
+        permuteBriks(varA,varB,Folder,mask,briki,pThr)
         cd perm
         !rm perm*+tlrc*
         permuteResults(pThr,sizeORt);

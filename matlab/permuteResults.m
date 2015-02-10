@@ -57,6 +57,7 @@ critT=permResults.critT;
 tThresh=floor(tThresh*1000)/1000; % to make it equal to clusterize GUI
 if ~exist('PermTemp+tlrc.BRIK','file')
     [~,w]=unix('3dcalc -a realTest+tlrc -exp "a*0" -prefix PermTemp');
+    [~,w]=unix('3drefit -sublabel 1 noResults -sublabel 0 noResults PermTemp+tlrc');
 end
 if doSize
     if exist('resultsSize+tlrc.BRIK','file')

@@ -1,6 +1,6 @@
 function permuteBriks(varA,varB,Folder,mask,subBrik)
 % here we make permutations for two conditions per subjects, mixing the
-% conditions randomly to find critical t value and cluster size
+% conditions randomly to find critical t value and cluster size.
 % use 'Folder' when you have folders per subject with tlrc files that have the
 % same name, like 'sub1/chicken+tlrc' 'sub2/chicken+tlrc' etc. in this example
 % Folder='sub';varA='chikcen'; you also need varB.
@@ -41,6 +41,10 @@ if isempty(subBrik)
 else
     subBrik=['[',num2str(subBrik),']'];
 end
+PWD=pwd;
+if strcmp(PWD(end-3:end),'perm')
+    cd ../
+end
 if ~exist('perm','dir')
     mkdir('perm');
 end
@@ -68,7 +72,7 @@ else
     list=ls ([varA,'*+tlrc.BRIK']);
     a=findstr(varA,list);
     atlrc=findstr('+tlrc',list);
-    if length(a)~=length(atlrc)
+    if length(a)~=length(atlrc) || isempty(a)
         error('problem finding subject number')
     end
     for counter=1:length(a)
@@ -77,7 +81,7 @@ else
     list=ls ([varB,'*+tlrc.BRIK']);
     b=findstr(varB,list);
     btlrc=findstr('+tlrc',list);
-    if length(b)~=length(btlrc)
+    if length(b)~=length(btlrc) || isempty(b)
         error('problem finding subject number')
     end
     for counter=1:length(b)
@@ -128,7 +132,9 @@ for permi=1:Nperm
                 uinput = input('perm files exist, 1=overwrite, 2=skip, 3=abort: your choice?  ','s');
                 switch uinput
                     case '1'
-                        !rm perm/*+tlrc*
+                        !rm perm/perm*+tlrc*
+                        !rm perm/pos+tlrc*
+                        !rm perm/neg+tlrc*
                         [~, w] = unix(command);
                         err=findstr('ERROR',w);
                         if ~isempty(err)
@@ -152,10 +158,13 @@ strA=[' -setA ',varA];
 strB=[' -setB ',varB];
 str = ['~/abin/3dttest++ -paired -no1sam -mask ',mask,'+tlrc -prefix perm/realTest'];
 for subi=1:n
-    strA=[strA,' sub1 ',vars{1},Sub{subi},'+tlrc',subBrik];
-    strB=[strB,' sub1 ',vars{2},Sub{subi},'+tlrc',subBrik];
+    strA=[strA,' sub',Sub{subi},' ',vars{1},Sub{subi},'+tlrc',subBrik];
+    strB=[strB,' sub',Sub{subi},' ',vars{2},Sub{subi},'+tlrc',subBrik];
 end
 command=[str,strA,strB];
+if exist('perm/realTest+tlrc.BRIK','file')
+    !rm perm/realTest+tlrc*
+end
 [~, w] = unix(command);
 save perm/message w
 cd perm
@@ -204,13 +213,13 @@ for thri=1:length(p)
         end
         clustSize(permi,1:2)=[negClustSize,posClustSize];
         if permi==1
-            disp('');
-            fprintf(['Threshold ',num2str(thri),' of ',num2str(length(p)),' permutation number '])
+            disp(' ');
+            fprintf(['Threshold ',num2str(thri),' of ',num2str(length(p)),', permutation number '])
         end
         try
             progNum(permi)
         catch
-            disp(['Threshold ',num2str(thri),' of ',num2str(length(p)),' permutation number ',num2str(permi)])
+            disp(['Threshold ',num2str(thri),' of ',num2str(length(p)),', permutation number ',num2str(permi)])
         end
     end
     clustSize=sort(clustSize(:));
@@ -229,7 +238,7 @@ permResults.variables.Folder=Folder;
 permResults.variables.mask=mask;
 permResults.variables.subBrik=subBrik;
 str=datestr(now);
-str=strrep(str,' ','_')
+str=strrep(str,' ','_');
 save(['permResults',str],'permResults')
 % % dig in results
 [~,w]=unix('~/abin/3dBrickStat -min -max realTest+tlrc[1]');
@@ -273,6 +282,7 @@ for thri=1:length(p)
     end
     clustSizeReal(thri,1:2)=[negClustSize,posClustSize];
 end
+disp(' ')
 if sum(clustSizeReal(:,1)>critClustSize')>0
     disp(['largest negative cluster is significant!'])
 end
@@ -290,3 +300,4 @@ disp(['pos clust  = ',num2str(clustSizeReal(:,2)')])
 disp('summary saved as permResults:')
 disp(permResults)
 disp(['reminder, positive means ',varA,' > ',varB])
+cd ..

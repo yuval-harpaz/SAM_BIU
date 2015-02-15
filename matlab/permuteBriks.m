@@ -87,19 +87,21 @@ else
     end
 end
 if ischar(varB)
-    list=ls ([varB,'*+tlrc.BRIK']);
-    b=findstr(varB,list);
-    btlrc=findstr('+tlrc',list);
-    if length(b)~=length(btlrc) || isempty(b)
-        error('problem finding subject number')
+    if ~folders
+        list=ls ([varB,'*+tlrc.BRIK']);
+        b=findstr(varB,list);
+        btlrc=findstr('+tlrc',list);
+        if length(b)~=length(btlrc) || isempty(b)
+            error('problem finding subject number')
+        end
+        for counter=1:length(b)
+            SubB{counter}=list((b(counter)+length(varB)):btlrc(counter)-1);
+        end
+        if ~isequal(Sub,SubB)
+            error('file names are not numbered the same for the two conditions')
+        end
+        clear SubB
     end
-    for counter=1:length(b)
-        SubB{counter}=list((b(counter)+length(varB)):btlrc(counter)-1);
-    end
-    if ~isequal(Sub,SubB)
-        error('file names are not numbered the same for the two conditions')
-    end
-    clear SubB
     oneSet=false;
 else
     oneSet=true;

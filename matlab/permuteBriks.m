@@ -85,25 +85,26 @@ else
     for counter=1:length(a)
         Sub{counter}=list((a(counter)+length(varA)):atlrc(counter)-1);
     end
-    if ischar(varB)
-        list=ls ([varB,'*+tlrc.BRIK']);
-        b=findstr(varB,list);
-        btlrc=findstr('+tlrc',list);
-        if length(b)~=length(btlrc) || isempty(b)
-            error('problem finding subject number')
-        end
-        for counter=1:length(b)
-            SubB{counter}=list((b(counter)+length(varB)):btlrc(counter)-1);
-        end
-        if ~isequal(Sub,SubB)
-            error('file names are not numbered the same for the two conditions')
-        end
-        clear SubB
-        oneSet=false;
-    else
-        oneSet=true;
-    end
 end
+if ischar(varB)
+    list=ls ([varB,'*+tlrc.BRIK']);
+    b=findstr(varB,list);
+    btlrc=findstr('+tlrc',list);
+    if length(b)~=length(btlrc) || isempty(b)
+        error('problem finding subject number')
+    end
+    for counter=1:length(b)
+        SubB{counter}=list((b(counter)+length(varB)):btlrc(counter)-1);
+    end
+    if ~isequal(Sub,SubB)
+        error('file names are not numbered the same for the two conditions')
+    end
+    clear SubB
+    oneSet=false;
+else
+    oneSet=true;
+end
+
 %% make a list of random shuffling of the conditions
 n=length(Sub);
 if n<12 % n=11 gives 1023 permutations, n=12 gives 2047 and then we choose 1000 randomly

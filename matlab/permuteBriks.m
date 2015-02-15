@@ -78,19 +78,24 @@ else
     for counter=1:length(a)
         Sub{counter}=list((a(counter)+length(varA)):atlrc(counter)-1);
     end
-    list=ls ([varB,'*+tlrc.BRIK']);
-    b=findstr(varB,list);
-    btlrc=findstr('+tlrc',list);
-    if length(b)~=length(btlrc) || isempty(b)
-        error('problem finding subject number')
+    if ischar(varB)
+        list=ls ([varB,'*+tlrc.BRIK']);
+        b=findstr(varB,list);
+        btlrc=findstr('+tlrc',list);
+        if length(b)~=length(btlrc) || isempty(b)
+            error('problem finding subject number')
+        end
+        for counter=1:length(b)
+            SubB{counter}=list((b(counter)+length(varB)):btlrc(counter)-1);
+        end
+        if ~isequal(Sub,SubB)
+            error('file names are not numbered the same for the two conditions')
+        end
+        clear SubB
+        oneSet=false;
+    else
+        oneSet=true;
     end
-    for counter=1:length(b)
-        SubB{counter}=list((b(counter)+length(varB)):btlrc(counter)-1);
-    end
-    if ~isequal(Sub,SubB)
-        error('file names are not numbered the same for the two conditions')
-    end
-    clear SubB
 end
 %% make a list of random shuffling of the conditions
 n=length(Sub);
@@ -109,18 +114,38 @@ end
 M=M+1;
 clear a* b* counter
 %% 3dttest++
-vars={varA,varB};
+
 Nperm=length(M);
 fprintf(['performing ',num2str(Nperm),' permutations: '])
 overwrite=false;
 skip=false;
+% remove constant from datasets when comparing one set to a constant
+if oneSet
+    for subi=1:n
+        [~,w]=unix(['3dcalc -prefix blc',Sub{subi},' -a ',varA,Sub{subi},'+tlrc -exp "a-',num2str(varB),'"']);
+        [~,w]=unix(['3dcalc -prefix blcNeg',Sub{subi},' -a blc',Sub{subi},'+tlrc -exp "-a"']);
+    end
+    vars={'blc','blcNeg'};
+else
+    vars={varA,varB};
+end
 for permi=1:Nperm
     strA=[' -setA ',varA];
-    strB=[' -setB ',varB];
-    str = ['~/abin/3dttest++ -paired -no1sam -mask ',mask,'+tlrc -prefix perm/perm',num2str(permi)];
+    if oneSet
+        strB='';
+        str = ['~/abin/3dttest++ -mask ',mask,'+tlrc -prefix perm/perm',num2str(permi)];
+    else
+        strB=[' -setB ',varB];
+        str = ['~/abin/3dttest++ -paired -no1sam -mask ',mask,'+tlrc -prefix perm/perm',num2str(permi)];
+    end
+    
     for subi=1:n
-        strA=[strA,' sub1 ',vars{M(permi,subi)},Sub{subi},'+tlrc',subBrik];
-        strB=[strB,' sub1 ',vars{abs(M(permi,subi)-3)},Sub{subi},'+tlrc',subBrik];
+        if oneSet
+            strA=[strA,' sub',Sub{subi},' ',vars{M(permi,subi)},Sub{subi},'+tlrc',subBrik];
+        else
+            strA=[strA,' sub',Sub{subi},' ',vars{M(permi,subi)},Sub{subi},'+tlrc',subBrik];
+            strB=[strB,' sub',Sub{subi},' ',vars{abs(M(permi,subi)-3)},Sub{subi},'+tlrc',subBrik];
+        end
     end
     command=[str,strA,strB];
     
@@ -155,23 +180,40 @@ for permi=1:Nperm
     end
 end
 strA=[' -setA ',varA];
-strB=[' -setB ',varB];
-str = ['~/abin/3dttest++ -paired -no1sam -mask ',mask,'+tlrc -prefix perm/realTest'];
+if oneSet
+    strB='';
+    str = ['~/abin/3dttest++ -mask ',mask,'+tlrc -prefix perm/realTest'];
+else
+    strB=[' -setB ',varB];
+    str = ['~/abin/3dttest++ -paired -no1sam -mask ',mask,'+tlrc -prefix perm/realTest'];
+end
+
 for subi=1:n
-    strA=[strA,' sub',Sub{subi},' ',vars{1},Sub{subi},'+tlrc',subBrik];
-    strB=[strB,' sub',Sub{subi},' ',vars{2},Sub{subi},'+tlrc',subBrik];
+    if oneSet
+        strA=[strA,' sub',Sub{subi},' ',vars{1},Sub{subi},'+tlrc',subBrik];
+    else
+        strA=[strA,' sub',Sub{subi},' ',vars{1},Sub{subi},'+tlrc',subBrik];
+        strB=[strB,' sub',Sub{subi},' ',vars{2},Sub{subi},'+tlrc',subBrik];
+    end
 end
 command=[str,strA,strB];
 if exist('perm/realTest+tlrc.BRIK','file')
     !rm perm/realTest+tlrc*
 end
 [~, w] = unix(command);
-save perm/message w
+if oneSet
+    !rm blc*+tlrc*
+end
 cd perm
 %% get crit T value
 for permi=1:Nperm
     [~,t]=unix(['~/abin/3dBrickStat -min -max perm',num2str(permi),'+tlrc','[1]']);
-    T(permi,1:2)=str2num(t);
+    try
+        T(permi,1:2)=str2num(t);
+    catch
+        error(t); % for log full warnings and such
+    end
+            
 end
 T=sort(abs(T(:)));
 Tcrit=T(end-floor(length(T)/20)+1);
@@ -186,7 +228,11 @@ if exist('pThr','var')
 else
     p=[0.01 0.025 0.05 0.1];
 end
-Tthresholds=abs(tinv(p/2,n-1));
+if oneSet
+    Tthresholds=abs(tinv(p,n-1));
+else
+    Tthresholds=abs(tinv(p/2,n-1));
+end
 disp('looking for clusters')
 for thri=1:length(p)
     for permi=1:Nperm
@@ -198,8 +244,8 @@ for thri=1:length(p)
         if exist('pos+tlrc.BRIK','file')
             !rm pos+tlrc*
         end
-        [~,~]=unix(['~/abin/3dcalc -a perm',num2str(permi),'+tlrc''','[1]''',' -exp ''','ispositive(a-',num2str(tThresh),')*a''',' -prefix pos'])
-        [~,~]=unix(['~/abin/3dcalc -a perm',num2str(permi),'+tlrc''','[1]''',' -exp ''','isnegative(a+',num2str(tThresh),')*a''',' -prefix neg'])
+        [~,~]=unix(['~/abin/3dcalc -a perm',num2str(permi),'+tlrc''','[1]''',' -exp ''','ispositive(a-',num2str(tThresh),')*a''',' -prefix pos']);
+        [~,~]=unix(['~/abin/3dcalc -a perm',num2str(permi),'+tlrc''','[1]''',' -exp ''','isnegative(a+',num2str(tThresh),')*a''',' -prefix neg']);
         [~,negClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 neg+tlrc']);
         [~,posClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 pos+tlrc']);
         
@@ -251,10 +297,12 @@ save(['permResults',str],'permResults')
 % % dig in results
 [~,w]=unix('~/abin/3dBrickStat -min -max realTest+tlrc[1]');
 tReal=str2num(w);
-if -tReal(1)>Tcrit
+if -tReal(1)>Tcrit && ~oneSet
+    disp(' ')
     disp(['most negative t (',num2str(tReal(1)),') is significant!'])
 end
 if tReal(2)>Tcrit
+    disp(' ')
     disp(['most positive t (',num2str(tReal(2)),') is significant!'])
 end
 
@@ -267,19 +315,20 @@ for thri=1:length(p)
     if exist('pos+tlrc.BRIK','file')
         !rm pos+tlrc*
     end
-    [~,~]=unix(['~/abin/3dcalc -a realTest+tlrc''','[1]''',' -exp ''','ispositive(a-',num2str(tThresh),')*a''',' -prefix pos'])
-    [~,~]=unix(['~/abin/3dcalc -a realTest+tlrc''','[1]''',' -exp ''','isnegative(a+',num2str(tThresh),')*a''',' -prefix neg'])
-    [~,negClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 neg+tlrc']);
-    [~,posClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 pos+tlrc']);
-    
-    err=findstr('NO CLUSTERS FOUND',negClust); %#ok<*FSTR>
-    if isempty(err)
+    [~,~]=unix(['~/abin/3dcalc -a realTest+tlrc''','[1]''',' -exp ''','ispositive(a-',num2str(tThresh),')*a''',' -prefix pos']);
+    if ~oneSet
+        [~,~]=unix(['~/abin/3dcalc -a realTest+tlrc''','[1]''',' -exp ''','isnegative(a+',num2str(tThresh),')*a''',' -prefix neg']);
+        [~,negClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 neg+tlrc']);
+        err=findstr('NO CLUSTERS FOUND',negClust); %#ok<*FSTR>
+        if isempty(err)
         clust=negClust(findstr('Cox et al',negClust)+10:end);
         clust=regexp(clust,'\d+','match');
         negClustSize=str2num(clust{1})/125;
-    else
-        negClustSize=0;
+        else
+            negClustSize=0;
+        end
     end
+    [~,posClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 pos+tlrc']);
     err=findstr('NO CLUSTERS FOUND',posClust);
     if isempty(err)
         clust=posClust(findstr('Cox et al',posClust)+10:end);
@@ -288,14 +337,18 @@ for thri=1:length(p)
     else
         posClustSize=0;
     end
-    clustSizeReal(thri,1:2)=[negClustSize,posClustSize];
+    if oneSet
+        clustSizeReal(thri,1:2)=[0,posClustSize];
+    else
+        clustSizeReal(thri,1:2)=[negClustSize,posClustSize];
+    end
 end
 disp(' ')
 if sum(clustSizeReal(:,1)>critClustSize')>0
-    disp(['largest negative cluster is significant!'])
+    disp('largest negative cluster is significant!')
 end
 if sum(clustSizeReal(:,2)>critClustSize')>0
-    disp(['largest positive cluster is significant!'])
+    disp('largest positive cluster is significant!')
 end
 disp('critical cluster size by threshold:')
 disp(['threshold:p= ',num2str(p)])
@@ -307,5 +360,9 @@ disp(['pos clust  = ',num2str(clustSizeReal(:,2)')])
 
 disp('summary saved as permResults:')
 disp(permResults)
-disp(['reminder, positive means ',varA,' > ',varB])
+if oneSet
+    disp(['reminder, positive means ',varA,' > ',num2str(varB),', negative means noise'])
+else
+    disp(['reminder, positive means ',varA,' > ',varB])
+end
 cd ..

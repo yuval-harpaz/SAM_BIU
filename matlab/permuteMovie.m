@@ -1,4 +1,4 @@
-function permuteMovie(varA,varB,Folder,mask,subBrik,pThr,sizeORt)
+function permuteMovie(varA,varB,Folder,mask,subBrik,pThr,sizeORt,prefix)
 % permuteMovie('Ma_','Mw_',[],[],145:150,0.01,'both');
 % see permuteBriks and permuteResults for variables info
 % subBrik is a choice of sub-briks like 0:30. leave empty to look for all
@@ -9,12 +9,19 @@ if strcmp(PWD(end-3:end),'perm')
 end
 if isempty(subBrik)
     LS=ls([varA,'*']);
-    plusi=findstr(LS,'+');
+    plusi=findstr(LS,'+'); %#ok<*FSTR>
     sub1=LS(1:plusi+4);
     [~, Info] = BrikLoad (sub1);
     subBrik=0:(Info.TAXIS_NUMS(1)-1);
 end
 skip=[];
+if ~exist('prefix','var')
+    prefix=[];
+end
+if isempty(prefix)
+    prefix='';
+end
+    
 for briki=subBrik
     doPerm=true; % for this perm
     if isempty(skip)
@@ -36,24 +43,28 @@ for briki=subBrik
     end
     if doPerm
         disp(['subBrik ',num2str(briki),', last is ',num2str(subBrik(end))]);
+        if exist('perm/perm1+tlrc.BRIK','file') || exist('perm/perm100+tlrc.BRIK','file')
+            !rm perm/perm*+tlrc*
+        end
         permuteBriks(varA,varB,Folder,mask,briki,pThr)
         cd perm
         !rm perm*+tlrc*
+        !rm results*+tlrc*
         permuteResults(pThr,sizeORt);
         switch sizeORt
             case 't'
                 [~,w]=unix(['mv resultsT+tlrc.BRIK ../t_',num2str(briki),'+tlrc.BRIK']);
                 [~,w]=unix(['mv resultsT+tlrc.HEAD ../t_',num2str(briki),'+tlrc.HEAD']);
             case 'size'
-                [~,w]=unix(['mv resultsSize+tlrc.BRIK ../s_',num2str(briki),'+tlrc.BRIK']);
-                [~,w]=unix(['mv resultsSize+tlrc.HEAD ../s_',num2str(briki),'+tlrc.HEAD']);
+                [~,w]=unix(['mv resultsSizeAll+tlrc.BRIK ../s_',num2str(briki),'+tlrc.BRIK']);
+                [~,w]=unix(['mv resultsSizeAll+tlrc.HEAD ../s_',num2str(briki),'+tlrc.HEAD']);
             case 'both'
-                [~,w]=unix(['mv results+tlrc.BRIK ../b_',num2str(briki),'+tlrc.BRIK']);
-                [~,w]=unix(['mv results+tlrc.HEAD ../b_',num2str(briki),'+tlrc.HEAD']);
+                %[~,w]=unix(['mv results+tlrc.BRIK ../b_',num2str(briki),'+tlrc.BRIK']);
+                %[~,w]=unix(['mv results+tlrc.HEAD ../b_',num2str(briki),'+tlrc.HEAD']);
                 [~,w]=unix(['mv resultsT+tlrc.BRIK ../t_',num2str(briki),'+tlrc.BRIK']);
                 [~,w]=unix(['mv resultsT+tlrc.HEAD ../t_',num2str(briki),'+tlrc.HEAD']);
-                [~,w]=unix(['mv resultsSize+tlrc.BRIK ../s_',num2str(briki),'+tlrc.BRIK']);
-                [~,w]=unix(['mv resultsSize+tlrc.HEAD ../s_',num2str(briki),'+tlrc.HEAD']);
+                [~,w]=unix(['mv resultsSizeAll+tlrc.BRIK ../s_',num2str(briki),'+tlrc.BRIK']);
+                [~,w]=unix(['mv resultsSizeAll+tlrc.HEAD ../s_',num2str(briki),'+tlrc.HEAD']);
         end
         cd ../
         
@@ -63,19 +74,19 @@ end
 Torg=num2str(Info.TAXIS_FLOATS(1)*1000); % FIXME when start not in brik zero...
 TR=num2str(Info.TAXIS_FLOATS(2)*1000);
 if strcmp(sizeORt,'t') || strcmp(sizeORt,'both')
-    rmPrompt('T+tlrc')
-    strT=['3dTcat -tr ',TR,' -prefix T '];
+    rmPrompt([prefix,'T+tlrc'])
+    strT=['3dTcat -tr ',TR,' -prefix ',prefix,'T '];
     for briki=subBrik
         strT=[strT,'t_',num2str(briki),'+tlrc[1] '];
     end
     [~,w]=unix(strT);
-    if exist('T+tlrc.BRIK','file')
+    if exist([prefix,'T+tlrc.BRIK'],'file')
         %!rm t_*+tlrc*
-        [~,w]=unix(['3drefit -Torg ',Torg,' T+tlrc'])
+        [~,w]=unix(['3drefit -Torg ',Torg,' ',prefix,'T+tlrc']);
     else
         error('3dTcat failed?')
     end
-    [V,Info] = BrikLoad ('T+tlrc');
+    [V,Info] = BrikLoad ([prefix,'T+tlrc']);
     sig=squeeze(sum(sum(sum(V))));
     if(sum(sig)==0)
         disp('NOTHING for extreme T values')
@@ -84,19 +95,19 @@ if strcmp(sizeORt,'t') || strcmp(sizeORt,'both')
     end
 end
 if strcmp(sizeORt,'size') || strcmp(sizeORt,'both')
-    rmPrompt('Size+tlrc')
-    strS=['3dTcat -tr ',TR,' -prefix Size '];
+    rmPrompt([prefix,'Size+tlrc'])
+    strS=['3dTcat -tr ',TR,' -prefix ',prefix,'Size ']; % FIXME add varA varB to prefix
     for briki=subBrik
-        strS=[strS,'s_',num2str(briki),'+tlrc[1] '];
+        strS=[strS,'s_',num2str(briki),'+tlrc[0] '];
     end
     [~,w]=unix(strS);
-    if exist('Size+tlrc.BRIK','file')
+    if exist([prefix,'Size+tlrc.BRIK'],'file')
         %!rm s_*+tlrc*
-        unix(['3drefit -Torg ',Torg,' Size+tlrc']);
+        [~,w]=unix(['3drefit -Torg ',Torg,' ',prefix,'Size+tlrc']);
     else
         error('3dTcat failed?')
     end
-    [V,Info] = BrikLoad ('Size+tlrc');
+    [V,Info] = BrikLoad ([prefix,'Size+tlrc']);
     sig=squeeze(sum(sum(sum(V))));
     if(sum(sig)==0)
         disp('NOTHING for extreme cluster sizes')
@@ -104,20 +115,23 @@ if strcmp(sizeORt,'size') || strcmp(sizeORt,'both')
         disp(['some sig Size results for sub-briks ',num2str(find(sig')+subBrik(1)-1)])
     end
 end
-if strcmp(sizeORt,'both')
-    rmPrompt('TandSize+tlrc')
-    strB=['3dTcat -tr ',TR,' -prefix TandSize '];
-    for briki=subBrik
-        strB=[strB,'b_',num2str(briki),'+tlrc[1] '];
-    end
-    unix(strB);
-    if exist('TandSize+tlrc.BRIK','file')
-        unix(['3drefit -Torg ',Torg,' TandSize+tlrc']);
-        %!rm b_*+tlrc*
-    else
-        error('3dTcat failed?')
-    end
-end
+[~,~]=unix('rm s_*+tlrc*');
+[~,~]=unix('rm t_*+tlrc*');
+
+% if strcmp(sizeORt,'both')
+%     rmPrompt('TandSize+tlrc')
+%     strB=['3dTcat -tr ',TR,' -prefix TandSize '];
+%     for briki=subBrik
+%         strB=[strB,'b_',num2str(briki),'+tlrc[1] '];
+%     end
+%     unix(strB);
+%     if exist('TandSize+tlrc.BRIK','file')
+%         unix(['3drefit -Torg ',Torg,' TandSize+tlrc']);
+%         %!rm b_*+tlrc*
+%     else
+%         error('3dTcat failed?')
+%     end
+% end
 
 function rmPrompt(brikName)
 if exist([brikName,'.BRIK'],'file')

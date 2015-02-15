@@ -18,6 +18,8 @@ if exist('Folder','var')
     if isempty(Folder)
         folders=false;
         Folder='';
+    else
+        folders=true;
     end
 else
     folders=false;
@@ -73,7 +75,12 @@ else
     a=findstr(varA,list);
     atlrc=findstr('+tlrc',list);
     if length(a)~=length(atlrc) || isempty(a)
-        error('problem finding subject number')
+        list=ls ([varA,'*+tlrc.BRIK']); % second try might work, you never know
+        a=findstr(varA,list);
+        atlrc=findstr('+tlrc',list);
+        if length(a)~=length(atlrc) || isempty(a)
+            error('problem finding subject number')
+        end
     end
     for counter=1:length(a)
         Sub{counter}=list((a(counter)+length(varA)):atlrc(counter)-1);
@@ -208,12 +215,15 @@ cd perm
 %% get crit T value
 for permi=1:Nperm
     [~,t]=unix(['~/abin/3dBrickStat -min -max perm',num2str(permi),'+tlrc','[1]']);
+    newLines=regexp(t,'\n');
+    if length(newLines)>1 % sometimes there are two rows due to impossible error, try again.
+        [~,t]=unix(['~/abin/3dBrickStat -min -max perm',num2str(permi),'+tlrc','[1]']);
+    end
     try
         T(permi,1:2)=str2num(t);
     catch
         error(t); % for log full warnings and such
-    end
-            
+    end       
 end
 T=sort(abs(T(:)));
 Tcrit=T(end-floor(length(T)/20)+1);

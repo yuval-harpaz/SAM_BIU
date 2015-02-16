@@ -79,10 +79,10 @@ if strcmp(sizeORt,'t') || strcmp(sizeORt,'both')
     for briki=subBrik
         strT=[strT,'t_',num2str(briki),'+tlrc[1] '];
     end
-    [~,w]=unix(strT);
+    [~,w]=afnix(strT);
     if exist([prefix,'T+tlrc.BRIK'],'file')
         %!rm t_*+tlrc*
-        [~,w]=unix(['3drefit -Torg ',Torg,' ',prefix,'T+tlrc']);
+        [~,w]=afnix(['3drefit -Torg ',Torg,' ',prefix,'T+tlrc']);
     else
         error('3dTcat failed?')
     end
@@ -100,10 +100,10 @@ if strcmp(sizeORt,'size') || strcmp(sizeORt,'both')
     for briki=subBrik
         strS=[strS,'s_',num2str(briki),'+tlrc[0] '];
     end
-    [~,w]=unix(strS);
+    [~,w]=afnix(strS);
     if exist([prefix,'Size+tlrc.BRIK'],'file')
         %!rm s_*+tlrc*
-        [~,w]=unix(['3drefit -Torg ',Torg,' ',prefix,'Size+tlrc']);
+        [~,w]=afnix(['3drefit -Torg ',Torg,' ',prefix,'Size+tlrc']);
     else
         error('3dTcat failed?')
     end

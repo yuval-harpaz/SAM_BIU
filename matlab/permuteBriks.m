@@ -132,8 +132,8 @@ skip=false;
 % remove constant from datasets when comparing one set to a constant
 if oneSet
     for subi=1:n
-        [~,w]=unix(['3dcalc -prefix blc',Sub{subi},' -a ',varA,Sub{subi},'+tlrc -exp "a-',num2str(varB),'"']);
-        [~,w]=unix(['3dcalc -prefix blcNeg',Sub{subi},' -a blc',Sub{subi},'+tlrc -exp "-a"']);
+        [~,w]=afnix(['3dcalc -prefix blc',Sub{subi},' -a ',varA,Sub{subi},'+tlrc -exp "a-',num2str(varB),'"']);
+        [~,w]=afnix(['3dcalc -prefix blcNeg',Sub{subi},' -a blc',Sub{subi},'+tlrc -exp "-a"']);
     end
     vars={'blc','blcNeg'};
 else
@@ -159,7 +159,7 @@ for permi=1:Nperm
     end
     command=[str,strA,strB];
     
-    [~, w] = unix(command);
+    [~, w] = afnix(command);
     err=findstr('ERROR',w);
     if ~isempty(err)
         if strcmp(w((err(1)+7):(err(1)+25)),'output dataset name')
@@ -170,7 +170,7 @@ for permi=1:Nperm
                         !rm perm/perm*+tlrc*
                         !rm perm/pos+tlrc*
                         !rm perm/neg+tlrc*
-                        [~, w] = unix(command);
+                        [~, w] = afnix(command);
                         err=findstr('ERROR',w);
                         if ~isempty(err)
                             error(w)
@@ -210,17 +210,17 @@ command=[str,strA,strB];
 if exist('perm/realTest+tlrc.BRIK','file')
     !rm perm/realTest+tlrc*
 end
-[~, w] = unix(command);
+[~, w] = afnix(command);
 if oneSet
     !rm blc*+tlrc*
 end
 cd perm
 %% get crit T value
 for permi=1:Nperm
-    [~,t]=unix(['~/abin/3dBrickStat -min -max perm',num2str(permi),'+tlrc','[1]']);
+    [~,t]=afnix(['~/abin/3dBrickStat -min -max perm',num2str(permi),'+tlrc','[1]']);
     newLines=regexp(t,'\n');
     if length(newLines)>1 % sometimes there are two rows due to impossible error, try again.
-        [~,t]=unix(['~/abin/3dBrickStat -min -max perm',num2str(permi),'+tlrc','[1]']);
+        [~,t]=afnix(['~/abin/3dBrickStat -min -max perm',num2str(permi),'+tlrc','[1]']);
     end
     try
         T(permi,1:2)=str2num(t);
@@ -257,10 +257,10 @@ for thri=1:length(p)
         if exist('pos+tlrc.BRIK','file')
             !rm pos+tlrc*
         end
-        [~,~]=unix(['~/abin/3dcalc -a perm',num2str(permi),'+tlrc''','[1]''',' -exp ''','ispositive(a-',num2str(tThresh),')*a''',' -prefix pos']);
-        [~,~]=unix(['~/abin/3dcalc -a perm',num2str(permi),'+tlrc''','[1]''',' -exp ''','isnegative(a+',num2str(tThresh),')*a''',' -prefix neg']);
-        [~,negClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 neg+tlrc']);
-        [~,posClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 pos+tlrc']);
+        [~,~]=afnix(['~/abin/3dcalc -a perm',num2str(permi),'+tlrc''','[1]''',' -exp ''','ispositive(a-',num2str(tThresh),')*a''',' -prefix pos']);
+        [~,~]=afnix(['~/abin/3dcalc -a perm',num2str(permi),'+tlrc''','[1]''',' -exp ''','isnegative(a+',num2str(tThresh),')*a''',' -prefix neg']);
+        [~,negClust]=afnix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 neg+tlrc']);
+        [~,posClust]=afnix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 pos+tlrc']);
         
         err=findstr('NO CLUSTERS FOUND',negClust); %#ok<*FSTR>
         if isempty(err)
@@ -308,7 +308,7 @@ str=datestr(now);
 str=strrep(str,' ','_');
 save(['permResults',str],'permResults')
 % % dig in results
-[~,w]=unix('~/abin/3dBrickStat -min -max realTest+tlrc[1]');
+[~,w]=afnix('~/abin/3dBrickStat -min -max realTest+tlrc[1]');
 tReal=str2num(w);
 if -tReal(1)>Tcrit && ~oneSet
     disp(' ')
@@ -328,10 +328,10 @@ for thri=1:length(p)
     if exist('pos+tlrc.BRIK','file')
         !rm pos+tlrc*
     end
-    [~,~]=unix(['~/abin/3dcalc -a realTest+tlrc''','[1]''',' -exp ''','ispositive(a-',num2str(tThresh),')*a''',' -prefix pos']);
+    [~,~]=afnix(['~/abin/3dcalc -a realTest+tlrc''','[1]''',' -exp ''','ispositive(a-',num2str(tThresh),')*a''',' -prefix pos']);
     if ~oneSet
-        [~,~]=unix(['~/abin/3dcalc -a realTest+tlrc''','[1]''',' -exp ''','isnegative(a+',num2str(tThresh),')*a''',' -prefix neg']);
-        [~,negClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 neg+tlrc']);
+        [~,~]=afnix(['~/abin/3dcalc -a realTest+tlrc''','[1]''',' -exp ''','isnegative(a+',num2str(tThresh),')*a''',' -prefix neg']);
+        [~,negClust]=afnix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 neg+tlrc']);
         err=findstr('NO CLUSTERS FOUND',negClust); %#ok<*FSTR>
         if isempty(err)
         clust=negClust(findstr('Cox et al',negClust)+10:end);
@@ -341,7 +341,7 @@ for thri=1:length(p)
             negClustSize=0;
         end
     end
-    [~,posClust]=unix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 pos+tlrc']);
+    [~,posClust]=afnix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 pos+tlrc']);
     err=findstr('NO CLUSTERS FOUND',posClust);
     if isempty(err)
         clust=posClust(findstr('Cox et al',posClust)+10:end);

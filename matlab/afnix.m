@@ -14,8 +14,9 @@ if ~isempty(longLog)
 end
 err=strfind(w,'ERROR');
 if ~isempty(err)
-    fprintf(2,w)
+    fprintf(2,w);
+    warning(' ');
     if errStop
-        dbstop in afnix at 18
+        dbstop in afnix at 22
     end
 end

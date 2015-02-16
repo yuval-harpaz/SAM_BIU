@@ -97,7 +97,7 @@ for thri=1:length(pThr)
                     [~,~]=afnix('3dcopy PermTemp+tlrc resultsT+tlrc');
                 end
             end
-            [~,t]=afnix('~/abin/3dcalc -prefix resultsT -a resultsT+tlrc[1] -exp "ispositive(a)*"');
+            %[~,t]=afnix('~/abin/3dcalc -prefix resultsT -a resultsT+tlrc[1] -exp "ispositive(a)"');
             %     [~,CMt]=unix('whereami -coord_file resultsT.txt[1,2,3] -tab -atlas TT_Daemon');
             %     [~,MIt]=unix('whereami -coord_file resultsT.txt[13,14,15] -tab -atlas TT_Daemon');
         end

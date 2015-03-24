@@ -27,7 +27,7 @@ if exist('hsTxt','file')
 end
 txtFileName = 'hsTxt';
 fid = fopen(txtFileName, 'w');
-fprintf(fid,'%s\t%s\t%s\n',PNT);
+fprintf(fid,'%f\t%f\t%f\n',PNT);
 fclose(fid);
 if exist('hs+orig.BRIK','file')
     !rm hds+orig*

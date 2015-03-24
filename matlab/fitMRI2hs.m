@@ -6,12 +6,15 @@ function M=fitMRI2hs(data);
 if exist('./warped+tlrc.BRIK','file')
     error('warped+tlrc exists, may cause conflict')
 end
+if ~exist('data','var')
+    fn=dir('*,rf*');
+    data=fn(1).name;
+end
+cfg=[];
 cfg.dataset=data;
-cfg.trialdef.poststim=0.1;
-cfg.trialfun='trialfun_beg';
-cfg1=ft_definetrial(cfg);
-cfg1.channel='A1';
-ftdata=ft_preprocessing(cfg1);
+cfg.channel='A1';
+cfg.trl=[1,10,0];
+ftdata=ft_preprocessing(cfg);
 %% creating SPM data
 headshapefile='hs_file';
 D=spm_eeg_ft2spm(ftdata,'modtempfile');
@@ -67,7 +70,7 @@ spm_get_space('T.nii', inv(M1)*spm_get_space(fullfile(spm('dir'), 'canonical', '
 M2=zeros(4,4);
 M2(1,2)=-1;M2(2,1)=1;M2(3,3)=1;M2(4,4)=1;
 spm_get_space('T.nii', M2*spm_get_space('T.nii'));
-warning(' ');
+%warning(' ');
 % display('oblique MRI. to create AFNI format:');
 % display('if the last step failed (3dWarp) in a terminal write: 3dWarp -deoblique T.nii');
 % display('the mri will be called warped+orig.BRIK');

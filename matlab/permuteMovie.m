@@ -7,11 +7,12 @@ PWD=pwd;
 if strcmp(PWD(end-3:end),'perm')
     cd ..
 end
+
+LS=ls([varA,'*']);
+plusi=findstr(LS,'+'); %#ok<*FSTR>
+sub1=LS(1:plusi+4);
+[~, Info] = BrikLoad (sub1);
 if isempty(subBrik)
-    LS=ls([varA,'*']);
-    plusi=findstr(LS,'+'); %#ok<*FSTR>
-    sub1=LS(1:plusi+4);
-    [~, Info] = BrikLoad (sub1);
     subBrik=0:(Info.TAXIS_NUMS(1)-1);
 end
 skip=[];
@@ -70,8 +71,7 @@ for briki=subBrik
         
     end
 end
-[~, Info] = BrikLoad ([varA,'1+tlrc']);
-Torg=num2str(Info.TAXIS_FLOATS(1)*1000); % FIXME when start not in brik zero...
+Torg=num2str(Info.TAXIS_FLOATS(1)*1000+Info.TAXIS_FLOATS(2)*subBrik(1)*1000);
 TR=num2str(Info.TAXIS_FLOATS(2)*1000);
 if strcmp(sizeORt,'t') || strcmp(sizeORt,'both')
     rmPrompt([prefix,'T+tlrc'])

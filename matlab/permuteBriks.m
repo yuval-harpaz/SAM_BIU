@@ -87,22 +87,27 @@ else
     end
 end
 if ischar(varB)
-    if ~folders
-        list=ls ([varB,'*+tlrc.BRIK']);
-        b=findstr(varB,list);
-        btlrc=findstr('+tlrc',list);
-        if length(b)~=length(btlrc) || isempty(b)
-            error('problem finding subject number')
+    if strcmp(varB(1:10),'percentile')
+        oneSet=true;
+        perc=varB(11:end);
+    else
+        oneSet=false;
+        if ~folders
+            list=ls ([varB,'*+tlrc.BRIK']);
+            b=findstr(varB,list);
+            btlrc=findstr('+tlrc',list);
+            if length(b)~=length(btlrc) || isempty(b)
+                error('problem finding subject number')
+            end
+            for counter=1:length(b)
+                SubB{counter}=list((b(counter)+length(varB)):btlrc(counter)-1);
+            end
+            if ~isequal(Sub,SubB)
+                error('file names are not numbered the same for the two conditions')
+            end
+            clear SubB
         end
-        for counter=1:length(b)
-            SubB{counter}=list((b(counter)+length(varB)):btlrc(counter)-1);
-        end
-        if ~isequal(Sub,SubB)
-            error('file names are not numbered the same for the two conditions')
-        end
-        clear SubB
     end
-    oneSet=false;
 else
     oneSet=true;
 end
@@ -131,8 +136,15 @@ overwrite=false;
 skip=false;
 % remove constant from datasets when comparing one set to a constant
 if oneSet
+    BL=num2str(varB);
     for subi=1:n
-        [~,w]=afnix(['3dcalc -prefix blc',Sub{subi},' -a ',varA,Sub{subi},'+tlrc -exp "a-',num2str(varB),'"']);
+        
+        if exist('perc','var')
+            [~,w]=afnix(['3dBrickStat -percentile ',perc,' 1 ',perc,' -non-zero BL_1+tlrc[1]']);
+            bl=regexp(w,' ','split');
+            BL=bl{2};
+        end
+        [~,w]=afnix(['3dcalc -prefix blc',Sub{subi},' -a ',varA,Sub{subi},'+tlrc -exp "a-',BL,'"']);
         [~,w]=afnix(['3dcalc -prefix blcNeg',Sub{subi},' -a blc',Sub{subi},'+tlrc -exp "-a"']);
     end
     vars={'blc','blcNeg'};

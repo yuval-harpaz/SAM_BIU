@@ -1,4 +1,5 @@
-function permuteBriks(varA,varB,Folder,mask,subBrik,pThr)
+function permuteBriks1(varA,varB,Folder,mask,subBrik,pThr)
+%% buggy as hell, good luck
 % here we make permutations for two conditions per subjects, mixing the
 % conditions randomly to find critical t value and cluster size.
 % use 'Folder' when you have folders per subject with tlrc files that have the
@@ -133,17 +134,21 @@ Nperm=length(M);
 fprintf(['performing ',num2str(Nperm),' permutations: '])
 overwrite=false;
 skip=false;
-% remove constant from datasets when comparing one set to a constant
+%remove constant from datasets when comparing one set to a constant
+!rm blc*+tlrc*
 if oneSet
     BL=num2str(varB);
     for subi=1:n
-        
         if exist('perc','var')
             [~,w]=afnix(['3dBrickStat -percentile ',perc,' 1 ',perc,' -non-zero BL_1+tlrc[1]']);
             bl=regexp(w,' ','split');
             BL=bl{2};
         end
-        [~,w]=afnix(['3dcalc -prefix blc',Sub{subi},' -a ',varA,Sub{subi},'+tlrc -exp "a-',BL,'"']);
+        if ~strcmp(BL,'0')
+            [~,w]=afnix(['3dcalc -prefix blc',Sub{subi},' -a ',varA,Sub{subi},'+tlrc -exp "a-',BL,'"']);
+        else
+            [~,w]=afnix(['3dcopy ',Sub{subi},'/YH/',varA,' blc',Sub{subi}]);
+        end
         [~,w]=afnix(['3dcalc -prefix blcNeg',Sub{subi},' -a blc',Sub{subi},'+tlrc -exp "-a"']);
     end
     vars={'blc','blcNeg'};
@@ -151,67 +156,70 @@ else
     vars={varA,varB};
 end
 for permi=1:Nperm
-    strA=[' -setA ',varA];
-    if oneSet
-        strB='';
-        str = ['~/abin/3dttest++ -mask ',mask,'+tlrc -prefix perm/perm',num2str(permi)];
-    else
-        strB=[' -setB ',varB];
-        str = ['~/abin/3dttest++ -paired -no1sam -mask ',mask,'+tlrc -prefix perm/perm',num2str(permi)];
-    end
-    
-    for subi=1:n
+    if ~skip
+        strA=[' -setA ',varA];
         if oneSet
-            strA=[strA,' sub',Sub{subi},' ',vars{M(permi,subi)},Sub{subi},'+tlrc',subBrik];
+            strB='';
+            str = ['~/abin/3dttest++ -mask ',mask,'+tlrc -prefix perm/perm',num2str(permi)];
         else
-            strA=[strA,' sub',Sub{subi},' ',vars{M(permi,subi)},Sub{subi},'+tlrc',subBrik];
-            strB=[strB,' sub',Sub{subi},' ',vars{abs(M(permi,subi)-3)},Sub{subi},'+tlrc',subBrik];
+            strB=[' -setB ',varB];
+            %str = ['~/abin/3dttest++ -paired -no1sam -mask ',mask,'+tlrc -prefix perm/perm',num2str(permi)];
+            str = ['~/abin/3dttest++ -paired -no1sam -prefix perm/perm',num2str(permi)];
         end
-    end
-    command=[str,strA,strB];
-    
-    [~, w] = afnix(command);
-    err=findstr('ERROR',w);
-    if ~isempty(err)
-        if strcmp(w((err(1)+7):(err(1)+25)),'output dataset name')
-            if ~skip
-                uinput = input('perm files exist, 1=overwrite, 2=skip, 3=abort: your choice?  ','s');
-                switch uinput
-                    case '1'
-                        !rm perm/perm*+tlrc*
-                        !rm perm/pos+tlrc*
-                        !rm perm/neg+tlrc*
-                        [~, w] = afnix(command);
-                        err=findstr('ERROR',w);
-                        if ~isempty(err)
-                            error(w)
-                        end
-                    case '2'
-                        skip=true;
-                    case '3'
-                        return
-                end
+        
+        for subi=1:n
+            if oneSet
+                strA=[strA,' ',vars{M(permi,subi)},Sub{subi},'+tlrc',subBrik];
+            else
+                strA=[strA,' ',Sub{subi},' ',vars{M(permi,subi)},Sub{subi},'+tlrc',subBrik];
+                strB=[strB,' ',Sub{subi},' ',vars{abs(M(permi,subi)-3)},Sub{subi},'+tlrc',subBrik];
             end
-        else
-            error(w(err:end));
         end
-    end
-    try
-        progNum(permi)
+        command=[str,strA,strB];
+        
+        [~, w] = afnix(command);
+        err=findstr('ERROR',w);
+        if ~isempty(err)
+            if strcmp(w((err(1)+7):(err(1)+25)),'output dataset name')
+                if ~skip
+                    uinput = input('perm files exist, 1=overwrite, 2=skip, 3=abort: your choice?  ','s');
+                    switch uinput
+                        case '1'
+                            !rm perm/perm*+tlrc*
+                            !rm perm/pos+tlrc*
+                            !rm perm/neg+tlrc*
+                            [~, w] = afnix(command);
+                            err=findstr('ERROR',w);
+                            if ~isempty(err)
+                                error(w)
+                            end
+                        case '2'
+                            skip=true;
+                        case '3'
+                            return
+                    end
+                end
+            else
+                error(w(err:end));
+            end
+        end
+        try
+            progNum(permi)
+        end
     end
 end
-strA=[' -setA ',varA];
+strA=' -setA ';
 if oneSet
     strB='';
-    str = ['~/abin/3dttest++ -mask ',mask,'+tlrc -prefix perm/realTest'];
+    str = ['~/abin/3dttest++ -prefix perm/realTest'];
 else
     strB=[' -setB ',varB];
-    str = ['~/abin/3dttest++ -paired -no1sam -mask ',mask,'+tlrc -prefix perm/realTest'];
+    str = ['~/abin/3dttest++ -paired -no1sam -prefix perm/realTest'];
 end
 
 for subi=1:n
     if oneSet
-        strA=[strA,' sub',Sub{subi},' ',vars{1},Sub{subi},'+tlrc',subBrik];
+        strA=[strA,' ',vars{1},Sub{subi},'+tlrc',subBrik];
     else
         strA=[strA,' sub',Sub{subi},' ',vars{1},Sub{subi},'+tlrc',subBrik];
         strB=[strB,' sub',Sub{subi},' ',vars{2},Sub{subi},'+tlrc',subBrik];
@@ -237,7 +245,7 @@ for permi=1:Nperm
         T(permi,1:2)=str2num(t);
     catch
         error(t); % for log full warnings and such
-    end       
+    end
 end
 T=sort(abs(T(:)));
 Tcrit=T(end-floor(length(T)/20)+1);
@@ -345,9 +353,9 @@ for thri=1:length(p)
         [~,negClust]=afnix(['~/abin/3dclust -quiet -1clip ',num2str(tThresh),' 5 125 neg+tlrc']);
         err=findstr('NO CLUSTERS FOUND',negClust); %#ok<*FSTR>
         if isempty(err)
-        clust=negClust(findstr('Cox et al',negClust)+10:end);
-        clust=regexp(clust,'\d+','match');
-        negClustSize=str2num(clust{1})/125;
+            clust=negClust(findstr('Cox et al',negClust)+10:end);
+            clust=regexp(clust,'\d+','match');
+            negClustSize=str2num(clust{1})/125;
         else
             negClustSize=0;
         end

@@ -157,12 +157,14 @@ else
 end
 for permi=1:Nperm
     if ~skip
-        strA=[' -setA ',varA];
+        
         if oneSet
+            strA=[' -setA ',varA];
             strB='';
             str = ['~/abin/3dttest++ -mask ',mask,'+tlrc -prefix perm/perm',num2str(permi)];
         else
-            strB=[' -setB ',varB];
+            strA=' -setA ';
+            strB=' -setB ';
             %str = ['~/abin/3dttest++ -paired -no1sam -mask ',mask,'+tlrc -prefix perm/perm',num2str(permi)];
             str = ['~/abin/3dttest++ -paired -no1sam -prefix perm/perm',num2str(permi)];
         end
@@ -171,8 +173,8 @@ for permi=1:Nperm
             if oneSet
                 strA=[strA,' ',vars{M(permi,subi)},Sub{subi},'+tlrc',subBrik];
             else
-                strA=[strA,' ',Sub{subi},' ',vars{M(permi,subi)},Sub{subi},'+tlrc',subBrik];
-                strB=[strB,' ',Sub{subi},' ',vars{abs(M(permi,subi)-3)},Sub{subi},'+tlrc',subBrik];
+                strA=[strA,' ',Sub{subi},'/YH/',vars{M(permi,subi)},subBrik];
+                strB=[strB,' ',Sub{subi},'/YH/',vars{abs(M(permi,subi)-3)},subBrik];
             end
         end
         command=[str,strA,strB];
@@ -213,7 +215,7 @@ if oneSet
     strB='';
     str = ['~/abin/3dttest++ -prefix perm/realTest'];
 else
-    strB=[' -setB ',varB];
+    strB=' -setB ';
     str = ['~/abin/3dttest++ -paired -no1sam -prefix perm/realTest'];
 end
 
@@ -221,8 +223,10 @@ for subi=1:n
     if oneSet
         strA=[strA,' ',vars{1},Sub{subi},'+tlrc',subBrik];
     else
-        strA=[strA,' sub',Sub{subi},' ',vars{1},Sub{subi},'+tlrc',subBrik];
-        strB=[strB,' sub',Sub{subi},' ',vars{2},Sub{subi},'+tlrc',subBrik];
+        %strA=[strA,' ',vars{1},Sub{subi},'+tlrc',subBrik];
+        %strB=[strB,' ',vars{2},Sub{subi},'+tlrc',subBrik];
+        strA=[strA,' ',Sub{subi},'/YH/',vars{1},subBrik];
+        strB=[strB,' ',Sub{subi},'/YH/',vars{2},subBrik];
     end
 end
 command=[str,strA,strB];

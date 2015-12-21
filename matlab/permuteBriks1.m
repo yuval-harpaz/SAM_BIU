@@ -177,8 +177,12 @@ for permi=1:Nperm
                 strB=[strB,' ',Sub{subi},'/YH/',vars{abs(M(permi,subi)-3)},subBrik];
             end
         end
-        command=[str,strA,strB];
         
+        command=[str,strA,strB];
+        newLines=regexp(command,'\n');
+        if ~isempty(newLines)
+            command(newLines)='';
+        end
         [~, w] = afnix(command);
         err=findstr('ERROR',w);
         if ~isempty(err)
@@ -190,6 +194,10 @@ for permi=1:Nperm
                             !rm perm/perm*+tlrc*
                             !rm perm/pos+tlrc*
                             !rm perm/neg+tlrc*
+                            newLines=regexp(command,'\n');
+                            if ~isempty(newLines)
+                                command(newLines)='';
+                            end
                             [~, w] = afnix(command);
                             err=findstr('ERROR',w);
                             if ~isempty(err)
@@ -230,6 +238,10 @@ for subi=1:n
     end
 end
 command=[str,strA,strB];
+newLines=regexp(command,'\n');
+if ~isempty(newLines)
+    command(newLines)='';
+end
 if exist('perm/realTest+tlrc.BRIK','file')
     !rm perm/realTest+tlrc*
 end

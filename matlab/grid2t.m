@@ -8,7 +8,7 @@ if ~isfield(grid,'pos')
     clear tmp
     grid.inside=1:size(grid.pos,1);
 else
-    ft_convert_units(grid,'cm');
+    grid=ft_convert_units(grid,'cm');
 end
 pnt=grid.pos(grid.inside,:);
 PNT=reshape(pnt',size(pnt,1)*3,1);

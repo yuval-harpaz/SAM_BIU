@@ -18,7 +18,7 @@ function [newtrig,events]=fixVisTrig(trig,prestim,onORoffset,alltrigs)
 %
 % event list is created with columns for trigger onset, trigger value and
 % trigger offset.
-% 
+%
 % for standart visual experiments run as
 % [newtrig,events]=fixVisTrig(trig,102,'onset',1);
 %%
@@ -35,7 +35,7 @@ end
 if isempty(onORoffset)
     onORoffset='onset';
 end
-    
+
 warning('50Hz cleaning with cleanMEG pack will not be possible using the new trigger'); %#ok<WNTAG>
 trig16=uint16(trig);
 trigf=bitset(trig16,9,0); %getting rid of trigger 256 (9)
@@ -52,6 +52,7 @@ visonset=visonset==2048;visoffset=visoffset==2048;
 onsets=find(visonset);offsets=find(visoffset);
 newtrig=zeros(size(trigf));
 events=[];
+eveCount=1;
 for i=1:size(onsets,2)
     ionset=onsets(1,i);
     if ionset>prestim
@@ -60,13 +61,30 @@ for i=1:size(onsets,2)
         if tvalue>0;
             ioffset=find(offsets>ionset,1);
             if strcmp(onORoffset,'onset');
-                newtrig(1,ionset)=tvalue;
+                if isempty(events) && tvalue>0
+                    newtrig(1,ionset)=tvalue;
+                    events(eveCount,1)=ionset; %#ok<AGROW>
+                    events(eveCount,2)=tvalue; %#ok<AGROW>
+                    events(eveCount,3)=offsets(ioffset); %#ok<AGROW>
+                    eveCount=eveCount+1;
+                elseif isempty(find(events(:,1)>(ionset-v+1))) && tvalue>0
+                    newtrig(1,ionset)=tvalue;
+
+                    events(eveCount,1)=ionset; %#ok<AGROW>
+                    events(eveCount,2)=tvalue; %#ok<AGROW>
+                    events(eveCount,3)=offsets(ioffset); %#ok<AGROW>
+                    eveCount=eveCount+1;
+                    
+                end
             elseif strcmp(onORoffset,'offset');
                 newtrig(1,offsets(ioffset))=tvalue;
+                if tvalue>0
+                    events(eveCount,1)=ionset; %#ok<AGROW>
+                    events(eveCount,2)=tvalue; %#ok<AGROW>
+                    events(eveCount,3)=offsets(ioffset); %#ok<AGROW>
+                    eveCount=eveCount+1;
+                end
             end
-            events(i,1)=ionset; %#ok<AGROW>
-            events(i,2)=tvalue; %#ok<AGROW>
-            events(i,3)=offsets(ioffset); %#ok<AGROW>
             tvalue=0; %#ok<NASGU>
         end
     end

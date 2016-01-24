@@ -7,7 +7,7 @@ if isstruct(trl)
     sRate=trl.fsample;
     gotTRL=false;
     if isfield(trl,'trl')
-        trl=trl;
+        trl=trl.trl;
     else
         if isfield(trl,'sampleinfo')
             temp=trl.sampleinfo(:,1:2);
